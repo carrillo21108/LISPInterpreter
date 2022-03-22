@@ -33,6 +33,18 @@ public class Interpreter {
 			return addOperation(expresion);
 		}
 		
+		//case 3:{
+			//return subtractionOperation(expresion);
+		//}
+		
+		//case 4:{
+			//return multiplicationOperation(expresion);
+		//}
+		
+		//case 5:{
+			//return divisionOperation(expresion);
+		//}
+		
 		case 10:{
 			return equal(expresion);
 		}

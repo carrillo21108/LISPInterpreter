@@ -20,8 +20,14 @@ public class SintaxScanner {
 	public static int getState(String expresion){
 		if (evaluate("^[(][ ]*setq[ ]+[a-z]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple assignment using setq
 			return 1;
-		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+([a-z]+|[0-9]+)[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
 			return 2;
+		else if (evaluate("^[(][ ]*[-][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
+			return 3;
+		else if (evaluate("^[(][ ]*[*][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
+			return 4;
+		else if (evaluate("^[(][ ]*[/][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
+			return 5;
 		else if (evaluate("^[(][ ]*equal[ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
 			return 10;
 		else if (evaluate("^[(][ ]*[<][ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
