@@ -170,6 +170,25 @@ public class Interpreter {
 	    miResult.addResults(" resta ", "" + total);
 	    return miResult;
 	}
+	/**
+	 * Multiplicacion
+	 * @param expresion
+	 * @return
+	 */
+	private IOperationResult multiplicationOperation(String expresion) {
+		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
+	    Matcher matcher = pattern.matcher(expresion);
+	    Integer total = 1;
+	    
+	    while (matcher.find()) {
+	    	total *= Integer.parseInt(matcher.group().trim());
+	    }
+	    
+	    AritmethicOperationResult miResult = new AritmethicOperationResult();
+	    miResult.addResults(" multiplicacion ", "" + total);
+	    return miResult;
+	}
+	
 	
 	
 	private IOperationResult equal(String expresion) {
