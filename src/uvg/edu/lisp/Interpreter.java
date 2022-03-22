@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import uvg.edu.common.AritmethicOperationResult;
 import uvg.edu.common.IOperationResult;
+import uvg.edu.common.PredicateOperationResult;
 
 /**
  * @author Brian Carrillo
@@ -33,15 +34,15 @@ public class Interpreter {
 		}
 		
 		case 10:{
-			return addOperation(expresion);
+			return equal(expresion);
 		}
 		
 		case 11:{
-			return addOperation(expresion);
+			return smallerThan(expresion);
 		}
 		
 		case 12:{
-			return addOperation(expresion);
+			return greaterThan(expresion);
 		}
 		
 		default:{
@@ -127,16 +128,86 @@ public class Interpreter {
 	}
 	
 	private IOperationResult equal(String expresion) {
-		Pattern pattern = Pattern.compile("[ ]+[0-9]+[ ]*", Pattern.CASE_INSENSITIVE); //
+		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
-	    Integer total = 0;
+	    Integer firstVar = 0;
+	    Integer secondVar = 0;
+	    String result = "";
 	    
+	    int count = 1;
 	    while (matcher.find()) {
-	    	total += Integer.parseInt(matcher.group().trim());
+	    	if(count == 1) {	    		
+	    		firstVar = Integer.parseInt(matcher.group().trim());
+	    	}else {
+	    		secondVar = Integer.parseInt(matcher.group().trim());
+	    	}
+	    	count ++;
 	    }
 	    
-	    AritmethicOperationResult miResult = new AritmethicOperationResult();
-	    miResult.addResults(" suma ", "" + total);
+	    if(firstVar == secondVar) {
+	    	result = "T";
+	    }else {
+	    	result = "NIL";
+	    }
+	    
+	    PredicateOperationResult miResult = new PredicateOperationResult();
+	    miResult.addResults(" equal ", "" + result);
+	    return miResult;
+	}
+	
+	private IOperationResult greaterThan(String expresion) {
+		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
+	    Matcher matcher = pattern.matcher(expresion);
+	    Integer firstVar = 0;
+	    Integer secondVar = 0;
+	    String result = "";
+	    
+	    int count = 1;
+	    while (matcher.find()) {
+	    	if(count == 1) {	    		
+	    		firstVar = Integer.parseInt(matcher.group().trim());
+	    	}else {
+	    		secondVar = Integer.parseInt(matcher.group().trim());
+	    	}
+	    	count ++;
+	    }
+	    
+	    if(firstVar > secondVar) {
+	    	result = "T";
+	    }else {
+	    	result = "NIL";
+	    }
+	    
+	    PredicateOperationResult miResult = new PredicateOperationResult();
+	    miResult.addResults(" greater than ", "" + result);
+	    return miResult;
+	}
+	
+	private IOperationResult smallerThan(String expresion) {
+		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
+	    Matcher matcher = pattern.matcher(expresion);
+	    Integer firstVar = 0;
+	    Integer secondVar = 0;
+	    String result = "";
+	    
+	    int count = 1;
+	    while (matcher.find()) {
+	    	if(count == 1) {	    		
+	    		firstVar = Integer.parseInt(matcher.group().trim());
+	    	}else {
+	    		secondVar = Integer.parseInt(matcher.group().trim());
+	    	}
+	    	count ++;
+	    }
+	    
+	    if(firstVar < secondVar) {
+	    	result = "T";
+	    }else {
+	    	result = "NIL";
+	    }
+	    
+	    PredicateOperationResult miResult = new PredicateOperationResult();
+	    miResult.addResults(" smaller than ", "" + result);
 	    return miResult;
 	}
 	

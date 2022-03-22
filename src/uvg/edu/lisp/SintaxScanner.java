@@ -22,7 +22,7 @@ public class SintaxScanner {
 			return 1;
 		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+([a-z]+|[0-9]+)[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
 			return 2;
-		else if (evaluate("^[(][ ]*[=][ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*equal[ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
 			return 10;
 		else if (evaluate("^[(][ ]*[<][ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
 			return 11;
