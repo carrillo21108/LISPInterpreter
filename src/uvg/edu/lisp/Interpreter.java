@@ -32,6 +32,18 @@ public class Interpreter {
 			return addOperation(expresion);
 		}
 		
+		case 10:{
+			return addOperation(expresion);
+		}
+		
+		case 11:{
+			return addOperation(expresion);
+		}
+		
+		case 12:{
+			return addOperation(expresion);
+		}
+		
 		default:{
 			
 			//Using anonymous Inner class
@@ -102,6 +114,20 @@ public class Interpreter {
 	
 	private IOperationResult addOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
+	    Matcher matcher = pattern.matcher(expresion);
+	    Integer total = 0;
+	    
+	    while (matcher.find()) {
+	    	total += Integer.parseInt(matcher.group().trim());
+	    }
+	    
+	    AritmethicOperationResult miResult = new AritmethicOperationResult();
+	    miResult.addResults(" suma ", "" + total);
+	    return miResult;
+	}
+	
+	private IOperationResult equal(String expresion) {
+		Pattern pattern = Pattern.compile("[ ]+[0-9]+[ ]*", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 0;
 	    
