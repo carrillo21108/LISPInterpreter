@@ -38,11 +38,11 @@ public class Interpreter {
 		}
 		
 		case 11:{
-			return greaterThan(expresion);
+			return smallerThan(expresion);
 		}
 		
 		case 12:{
-			return smallerThan(expresion);
+			return greaterThan(expresion);
 		}
 		
 		default:{
@@ -128,7 +128,7 @@ public class Interpreter {
 	}
 	
 	private IOperationResult equal(String expresion) {
-		Pattern pattern = Pattern.compile("[ ]+[0-9]+[ ]*", Pattern.CASE_INSENSITIVE); //
+		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer firstVar = 0;
 	    Integer secondVar = 0;
@@ -156,7 +156,7 @@ public class Interpreter {
 	}
 	
 	private IOperationResult greaterThan(String expresion) {
-		Pattern pattern = Pattern.compile("[ ]+[0-9]+[ ]*", Pattern.CASE_INSENSITIVE); //
+		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer firstVar = 0;
 	    Integer secondVar = 0;
@@ -184,7 +184,7 @@ public class Interpreter {
 	}
 	
 	private IOperationResult smallerThan(String expresion) {
-		Pattern pattern = Pattern.compile("[ ]+[0-9]+[ ]*", Pattern.CASE_INSENSITIVE); //
+		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer firstVar = 0;
 	    Integer secondVar = 0;
