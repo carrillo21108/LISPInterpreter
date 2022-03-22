@@ -7,7 +7,7 @@ package uvg.edu.common;
  * @author Brian Carrillo
  *
  */
-public class PredicateOperation implements IOperationResult {
+public class PredicateOperationResult implements IOperationResult {
 
 	@Override
 	public void performOperation() {
