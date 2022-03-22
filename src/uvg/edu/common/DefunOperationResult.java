@@ -7,7 +7,7 @@ package uvg.edu.common;
  * @author Brian Carrillo
  *
  */
-public class QuoteOperation implements IOperationResult {
+public class DefunOperationResult implements IOperationResult {
 
 	@Override
 	public void performOperation() {
