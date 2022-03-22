@@ -8,9 +8,9 @@ package uvg.edu.common;
  *
  */
 public class PredicateOperationResult implements IOperationResult {
-
-	String key;
-	String result;
+	
+	private String key;
+	private String result;
 	
 	@Override
 	public void performOperation() {

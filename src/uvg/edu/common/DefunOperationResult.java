@@ -8,17 +8,19 @@ package uvg.edu.common;
  *
  */
 public class DefunOperationResult implements IOperationResult {
-
+	
+	private String key;
+	private String result;
+	
 	@Override
 	public void performOperation() {
-		// TODO Auto-generated method stub
-
+		System.out.println("El resultado de la operacion " + key + " es: " + result);
 	}
 
 	@Override
 	public void addResults(String key, String result) {
-		// TODO Auto-generated method stub
-
+		this.key = key;
+		this.result = result;
 	}
 
 }
