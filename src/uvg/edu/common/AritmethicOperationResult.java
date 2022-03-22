@@ -9,8 +9,8 @@ package uvg.edu.common;
  */
 public class AritmethicOperationResult implements IOperationResult {
 
-	String key;
-	String result;
+	private String key;
+	private String result;
 	
 	@Override
 	public void performOperation() {
