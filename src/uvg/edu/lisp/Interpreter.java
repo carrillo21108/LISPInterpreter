@@ -33,17 +33,17 @@ public class Interpreter {
 			return addOperation(expresion);
 		}
 		
-		//case 3:{
-			//return subtractionOperation(expresion);
-		//}
+		case 3:{
+			return subtractionOperation(expresion);
+		}
 		
-		//case 4:{
-			//return multiplicationOperation(expresion);
-		//}
+		case 4:{
+			return multiplicationOperation(expresion);
+		}
 		
-		//case 5:{
-			//return divisionOperation(expresion);
-		//}
+		case 5:{
+			return divisionOperation(expresion);
+		}
 		
 		case 10:{
 			return equal(expresion);
@@ -125,6 +125,12 @@ public class Interpreter {
 	    
 	}
 	
+	
+	/**
+	 * Suma
+	 * @param expresion
+	 * @return
+	 */
 	private IOperationResult addOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
@@ -138,6 +144,33 @@ public class Interpreter {
 	    miResult.addResults(" suma ", "" + total);
 	    return miResult;
 	}
+	
+	/**
+	 * Resta
+	 * @param expresion
+	 * @return
+	 */
+	
+	private IOperationResult subtractionOperation(String expresion) {
+		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
+	    Matcher matcher = pattern.matcher(expresion);
+	    Integer total = 0;
+	    
+	    int count = 0;
+	    while (matcher.find()) {
+	    	if(count == 0) {
+	    		total = Integer.parseInt(matcher.group().trim());
+	    	}else {	    		
+	    		total = total - Integer.parseInt(matcher.group().trim());
+	    	}
+	    	count ++;
+	    }
+	    
+	    AritmethicOperationResult miResult = new AritmethicOperationResult();
+	    miResult.addResults(" resta ", "" + total);
+	    return miResult;
+	}
+	
 	
 	private IOperationResult equal(String expresion) {
 		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
