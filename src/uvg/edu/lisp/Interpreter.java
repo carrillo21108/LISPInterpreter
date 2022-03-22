@@ -189,7 +189,31 @@ public class Interpreter {
 	    return miResult;
 	}
 	
-	
+
+	/**
+	 * division
+	 * @param expresion
+	 * @return
+	 */
+	private IOperationResult divisionOperation(String expresion) {
+		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
+	    Matcher matcher = pattern.matcher(expresion);
+	    Integer total = 1;
+	    
+	    int count = 0;
+	    while (matcher.find()) {
+	    	if (count == 0) {
+	    		total = Integer.parseInt(matcher.group().trim());
+	    	}else {	    		
+	    		total = total / Integer.parseInt(matcher.group().trim());
+	    	}
+	    	count ++;
+	    }
+	    
+	    AritmethicOperationResult miResult = new AritmethicOperationResult();
+	    miResult.addResults(" division ", "" + total);
+	    return miResult;
+	}
 	
 	private IOperationResult equal(String expresion) {
 		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
