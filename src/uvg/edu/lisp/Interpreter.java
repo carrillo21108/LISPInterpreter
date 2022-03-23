@@ -16,6 +16,7 @@ import uvg.edu.common.PredicateOperationResult;
 public class Interpreter {
 
 	private HashMap<String, Integer> myVars;
+	private HashMap<String, String> myFunctions;
 
 	public Interpreter() {
 		myVars = new HashMap<String, Integer>();
@@ -43,6 +44,14 @@ public class Interpreter {
 		
 		case 5:{
 			return divisionOperation(expresion);
+		}
+		
+		case 8:{
+			return atomOperation(expresion);
+		}
+		
+		case 9:{
+			return listOperation(expresion);
 		}
 		
 		case 10:{
@@ -297,6 +306,61 @@ public class Interpreter {
 	    PredicateOperationResult miResult = new PredicateOperationResult();
 	    miResult.addResults(" smaller than ", "" + result);
 	    return miResult;
+	}
+	
+	public IOperationResult listOperation(String expresion) {
+		Pattern pattern = Pattern.compile("(('[a-z]')+|[0-9]+|(nil)+|([ ]+t)+)", Pattern.CASE_INSENSITIVE); //
+		Matcher matcher = pattern.matcher(expresion);
+		String result="(";
+		
+		int count = 0;
+		while(matcher.find()) {
+			
+			if(count==0) {
+				result += String.valueOf(matcher.group().trim());
+			}else {
+				result += " "+String.valueOf(matcher.group().trim());
+			}
+
+			count++;
+		}
+		
+		if(count == 0) {
+			result = "nil";
+		}else {
+			result += ")";
+		}
+		
+		PredicateOperationResult miResult = new PredicateOperationResult();
+		miResult.addResults(" list ", "" + result);
+		return miResult;
+	}
+	
+	public IOperationResult atomOperation(String expresion) {
+		Pattern patternAtom = Pattern.compile("^[(][ ]*atom[ ]+(((\"[a-z]\")+|[0-9]+|(nil)+|(t)+|('[0-9]+))[ ]*)[)]$", Pattern.CASE_INSENSITIVE); //
+		Pattern patternConsp = Pattern.compile("^[(][ ]*atom[ ]+[']([(]+[ ]*(((\"[a-z]\")+|[0-9]+|(nil)+|(t)+)[ ]*)+[)])[)]$", Pattern.CASE_INSENSITIVE); //
+		Matcher matcherAtom = patternAtom.matcher(expresion);
+		Matcher matcherConsp = patternConsp.matcher(expresion);
+		String result="";
+		
+		boolean atom = true;
+		
+		while(matcherAtom.find()) {
+			atom = true;
+		}
+		
+		while(matcherConsp.find()) {
+			atom = false;
+		}
+		
+		if(atom)
+			result = "t";
+		else
+			result = "nil";
+		
+		PredicateOperationResult miResult = new PredicateOperationResult();
+		miResult.addResults(" atom ", "" + result);
+		return miResult;
 	}
 	
 }
