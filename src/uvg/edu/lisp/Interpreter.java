@@ -100,24 +100,31 @@ public class Interpreter {
 	 * @return
 	 */
 	public IOperationResult addOperation(String expresion) {
+		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
 		Pattern patternVar = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
-	    Matcher matcherNum = patternNum.matcher(expresion);
-	    Matcher matcherVar = patternVar.matcher(expresion);
+		Matcher matcher = pattern.matcher(expresion);
+		
+		
 	    Integer total = 0;
 	    
-	    while (matcherNum.find()) {
-	    	total += Integer.parseInt(matcherNum.group().trim());
-	    }
-	    
-	    while(matcherVar.find()) {
-	    	if(myVars.containsKey(matcherVar.group())){
-	    		int valor = myVars.get(matcherVar.group());
-	    		total += valor;
-	    	}else {
-	    		ErrorOperationResult errorResult = new ErrorOperationResult();
-				errorResult.addResults("VARIABLE ERROR", "Variable invalida.");
-				return errorResult;
+	    while (matcher.find()) {
+	    	Matcher matcherNum = patternNum.matcher(matcher.group().trim());
+	    	Matcher matcherVar = patternVar.matcher(matcher.group().trim());
+	    	
+	    	if(matcherNum.lookingAt()) {
+	    		
+	    		total += Integer.parseInt(matcher.group().trim());
+	    		
+	    	}else if(matcherVar.lookingAt()) {
+	    		if(myVars.containsKey(matcher.group())){
+		    		int valor = myVars.get(matcher.group());
+		    		total += valor;
+		    	}else {
+		    		ErrorOperationResult errorResult = new ErrorOperationResult();
+					errorResult.addResults("VARIABLE ERROR", "Variable invalida.");
+					return errorResult;
+		    	}
 	    	}
 	    }
 	    
@@ -134,15 +141,50 @@ public class Interpreter {
 	
 	public IOperationResult subtractionOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
-	    Matcher matcher = pattern.matcher(expresion);
+		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternVar = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
+		Matcher matcher = pattern.matcher(expresion);
+		
 	    Integer total = 0;
 	    
 	    int count = 0;
 	    while (matcher.find()) {
 	    	if(count == 0) {
-	    		total = Integer.parseInt(matcher.group().trim());
+	    		Matcher matcherNum = patternNum.matcher(matcher.group().trim());
+		    	Matcher matcherVar = patternVar.matcher(matcher.group().trim());
+		    	
+		    	if(matcherNum.lookingAt()) {
+		    		
+		    		total = Integer.parseInt(matcher.group().trim());
+		    		
+		    	}else if(matcherVar.lookingAt()) {
+		    		if(myVars.containsKey(matcher.group())){
+			    		int valor = myVars.get(matcher.group());
+			    		total = valor;
+			    	}else {
+			    		ErrorOperationResult errorResult = new ErrorOperationResult();
+						errorResult.addResults("VARIABLE ERROR", "Variable invalida.");
+						return errorResult;
+			    	}
+		    	}
 	    	}else {	    		
-	    		total = total - Integer.parseInt(matcher.group().trim());
+	    		Matcher matcherNum = patternNum.matcher(matcher.group().trim());
+		    	Matcher matcherVar = patternVar.matcher(matcher.group().trim());
+		    	
+		    	if(matcherNum.lookingAt()) {
+		    		
+		    		total -= Integer.parseInt(matcher.group().trim());
+		    		
+		    	}else if(matcherVar.lookingAt()) {
+		    		if(myVars.containsKey(matcher.group())){
+			    		int valor = myVars.get(matcher.group());
+			    		total -= valor;
+			    	}else {
+			    		ErrorOperationResult errorResult = new ErrorOperationResult();
+						errorResult.addResults("VARIABLE ERROR", "Variable invalida.");
+						return errorResult;
+			    	}
+		    	}
 	    	}
 	    	count ++;
 	    }
@@ -158,11 +200,29 @@ public class Interpreter {
 	 */
 	public IOperationResult multiplicationOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
-	    Matcher matcher = pattern.matcher(expresion);
+		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternVar = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
+		Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 1;
 	    
 	    while (matcher.find()) {
-	    	total *= Integer.parseInt(matcher.group().trim());
+	    	Matcher matcherNum = patternNum.matcher(matcher.group().trim());
+	    	Matcher matcherVar = patternVar.matcher(matcher.group().trim());
+	    	
+	    	if(matcherNum.lookingAt()) {
+	    		
+	    		total *= Integer.parseInt(matcher.group().trim());
+	    		
+	    	}else if(matcherVar.lookingAt()) {
+	    		if(myVars.containsKey(matcher.group())){
+		    		int valor = myVars.get(matcher.group());
+		    		total *= valor;
+		    	}else {
+		    		ErrorOperationResult errorResult = new ErrorOperationResult();
+					errorResult.addResults("VARIABLE ERROR", "Variable invalida.");
+					return errorResult;
+		    	}
+	    	}
 	    }
 	    
 	    AritmethicOperationResult miResult = new AritmethicOperationResult();
@@ -178,15 +238,49 @@ public class Interpreter {
 	 */
 	public IOperationResult divisionOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
-	    Matcher matcher = pattern.matcher(expresion);
+		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternVar = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
+		Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 1;
 	    
 	    int count = 0;
 	    while (matcher.find()) {
 	    	if (count == 0) {
-	    		total = Integer.parseInt(matcher.group().trim());
+	    		Matcher matcherNum = patternNum.matcher(matcher.group().trim());
+		    	Matcher matcherVar = patternVar.matcher(matcher.group().trim());
+		    	
+		    	if(matcherNum.lookingAt()) {
+		    		
+		    		total = Integer.parseInt(matcher.group().trim());
+		    		
+		    	}else if(matcherVar.lookingAt()) {
+		    		if(myVars.containsKey(matcher.group())){
+			    		int valor = myVars.get(matcher.group());
+			    		total = valor;
+			    	}else {
+			    		ErrorOperationResult errorResult = new ErrorOperationResult();
+						errorResult.addResults("VARIABLE ERROR", "Variable invalida.");
+						return errorResult;
+			    	}
+		    	}
 	    	}else {	    		
-	    		total = total / Integer.parseInt(matcher.group().trim());
+	    		Matcher matcherNum = patternNum.matcher(matcher.group().trim());
+		    	Matcher matcherVar = patternVar.matcher(matcher.group().trim());
+		    	
+		    	if(matcherNum.lookingAt()) {
+		    		
+		    		total /= Integer.parseInt(matcher.group().trim());
+		    		
+		    	}else if(matcherVar.lookingAt()) {
+		    		if(myVars.containsKey(matcher.group())){
+			    		int valor = myVars.get(matcher.group());
+			    		total /= valor;
+			    	}else {
+			    		ErrorOperationResult errorResult = new ErrorOperationResult();
+						errorResult.addResults("VARIABLE ERROR", "Variable invalida.");
+						return errorResult;
+			    	}
+		    	}
 	    	}
 	    	count ++;
 	    }
