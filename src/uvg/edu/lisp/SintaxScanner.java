@@ -40,8 +40,8 @@ public class SintaxScanner {
 			return 11;
 		else if (evaluate("^[(][ ]*[>][ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion))
 			return 12;
-		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+|([(].*[)])+)[ ]+(([a-z]+|[0-9]+|([(].*[)])+)[ ]*)*[)]$",expresion))
-			return 13;
+		else if (evaluate("^[(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)]$",expresion))
+			return 14;
 		else 
 			return -1; //if no match found then the expression is incorrect
 	}

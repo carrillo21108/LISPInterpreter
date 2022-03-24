@@ -60,6 +60,9 @@ public class Interpreter {
 			
 			case 12:
 				return greaterThan(expresion);
+				
+			case 14:
+				return combOperationResult(expresion);
 			
 			default:
 				
@@ -445,6 +448,118 @@ public class Interpreter {
 	    PredicateOperationResult miResult = new PredicateOperationResult();
 	    miResult.addResults("",result);
 	    return miResult;
+	}
+	
+	private int combOperation(String expresion) {
+		
+		expresion = expresion.substring(1, expresion.length()-1);
+		
+		Pattern pattern = Pattern.compile("(([0-9]+)+|(([ ][(]).*[)])+|([+]+|[-]+|[*]+|[/]+)+)", Pattern.CASE_INSENSITIVE);
+		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
+		Pattern patternParentesis = Pattern.compile("(([(]).*[)])", Pattern.CASE_INSENSITIVE);
+		Pattern patternOp = Pattern.compile("([+]+|[-]+|[*]+|[/]+)", Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(expresion);
+		
+		int countSubs = 0;
+		int countDiv = 0;
+		Integer total = 0;
+		String operator = null;
+		
+		while (matcher.find()) {
+			
+	    	Matcher matcherOp = patternOp.matcher(matcher.group().trim());
+
+	    	if(matcherOp.lookingAt()) {
+	    		operator = matcherOp.group();
+	    		if(operator.equals("*") || operator.equals("/")) {
+	    			total = 1;
+	    		}
+	    	}else{
+	    		
+	    		switch (operator) {
+	    		
+		    		case "+":
+		    			Matcher matcherNum = patternNum.matcher(matcher.group().trim());
+		    			Matcher matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+	
+		    	    	if(matcherNum.lookingAt()) {	
+		    	    		total += Integer.parseInt(matcher.group().trim());
+		    	    	}else if(matcherParentesis.lookingAt()) {
+		    	    		total += combOperation(matcherParentesis.group());
+		    	    	}
+		    			break;
+		    			
+		    		case "-":
+		    			matcherNum = patternNum.matcher(matcher.group().trim());
+		    			matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+		    			
+		    			if(countSubs == 0) {
+		    				if(matcherNum.lookingAt()) {
+		    		    		total = Integer.parseInt(matcher.group().trim());
+		    		    	}else if(matcherParentesis.lookingAt()) {
+			    	    		total = combOperation(matcherParentesis.group());
+			    	    	}
+		    				countSubs ++;
+		    			}else {
+		    				matcherNum = patternNum.matcher(matcher.group().trim());
+		    				matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+		    		    	
+		    		    	if(matcherNum.lookingAt()) {
+		    		    		total -= Integer.parseInt(matcher.group().trim());
+		    		    	}else if(matcherParentesis.lookingAt()) {
+			    	    		total -= combOperation(matcherParentesis.group());
+			    	    	}
+		    			}
+		    			break;
+		    		case "*":
+		    			
+		    			matcherNum = patternNum.matcher(matcher.group().trim());
+		    			matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+	
+		    	    	if(matcherNum.lookingAt()) {	
+		    	    		total *= Integer.parseInt(matcher.group().trim());
+		    	    	}else if(matcherParentesis.lookingAt()) {
+		    	    		total *= combOperation(matcherParentesis.group());
+		    	    	}
+		    			break;
+		    			
+		    		case "/":
+		    			
+		    			matcherNum = patternNum.matcher(matcher.group().trim());
+		    			matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+		    			
+		    			if(countDiv == 0) {
+		    				if(matcherNum.lookingAt()) {
+		    		    		total = Integer.parseInt(matcher.group().trim());
+		    		    	}else if(matcherParentesis.lookingAt()) {
+			    	    		total = combOperation(matcherParentesis.group());
+			    	    	}
+		    				countDiv ++;
+		    			}else {
+		    				matcherNum = patternNum.matcher(matcher.group().trim());
+		    				matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+		    		    	
+		    		    	if(matcherNum.lookingAt()) {
+		    		    		total /= Integer.parseInt(matcher.group().trim());
+		    		    	}else if(matcherParentesis.lookingAt()) {
+			    	    		total /= combOperation(matcherParentesis.group());
+			    	    	}
+		    			}
+		    			break;
+		    		
+		    		}
+	    	}
+		}
+	    return total;
+	}
+	
+	public IOperationResult combOperationResult(String expresion) {
+		
+		int total = combOperation(expresion);
+		
+		AritmethicOperationResult miResult = new AritmethicOperationResult();
+	    miResult.addResults("",String.valueOf(total));
+	    return miResult;	
 	}
 	
 }
