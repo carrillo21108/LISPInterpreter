@@ -92,11 +92,12 @@ class AritmethicOperationTest {
 	
 	@Test
 	//jUnit Interpreter
-			void variableAssigment() {
-			Inicio();
-			IOperationResult result =  intp.variableAssigment("( +a )");
-			assertEquals (result.performOperation(),"Variable:  asignada con valor 0" );
-		}
+			
+	void variableAssigment() {
+	Inicio();
+	IOperationResult result =  intp.variableAssigment("( +a )");
+	assertEquals (result.performOperation(),"Variable:  asignada con valor 0" );
+	}
 	
 	@Test
 	void listOperation() {
