@@ -28,6 +28,8 @@ public class SintaxScanner {
 			return 4;
 		else if (evaluate("^[(][ ]*[/][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
 			return 5;
+		else if (evaluate("^[(][ ]*(quote |')+([+]|[-]|[*]|[+]|[(]|[)]|[0-9]|[a-z]|[defun]|[ ])*[)]$",expresion)) //This is a simple add operation of 2 operands
+			return 6;
 		else if (evaluate("^[(][ ]*atom[ ]+((((\"[a-z]\")+|[0-9]+|(nil)+|(t)+|('[0-9]+))[ ]*)|[']([(]+[ ]*(((\"[a-z]\")+|[0-9]+|(nil)+|(t)+)[ ]*)+[)]))[)]$",expresion)) //This is a simple add operation of 2 operands
 			return 8;
 		else if (evaluate("^[(][ ]*list[ ]*(((\"[a-z]\")*|[0-9]*|(nil)*|(t)*)[ ]*)+[)]$",expresion)) //This is a simple add operation of 2 operands
@@ -38,6 +40,8 @@ public class SintaxScanner {
 			return 11;
 		else if (evaluate("^[(][ ]*[>][ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
 			return 12;
+		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+|([(].*[)])+)[ ]+(([a-z]+|[0-9]+|([(].*[)])+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
+			return 13;
 		else 
 			return -1; //if no match found then the expression is incorrect
 	}

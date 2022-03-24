@@ -28,55 +28,46 @@ public class Interpreter {
 		int state = SintaxScanner.getState(expresion);
 		
 		switch(state) {
-		case 1:{
-			return variableAssigment(expresion);
-		}
-		
-		case 2:{
-			return addOperation(expresion);
-		}
-		
-		case 3:{
-			return subtractionOperation(expresion);
-		}
-		
-		case 4:{
-			return multiplicationOperation(expresion);
-		}
-		
-		case 5:{
-			return divisionOperation(expresion);
-		}
-		
-		case 8:{
-			return atomOperation(expresion);
-		}
-		
-		case 9:{
-			return listOperation(expresion);
-		}
-		
-		case 10:{
-			return equal(expresion);
-		}
-		
-		case 11:{
-			return smallerThan(expresion);
-		}
-		
-		case 12:{
-			return greaterThan(expresion);
-		}
-		
-		default:{
+			case 1:
+				return variableAssigment(expresion);
+				
+			case 2:
+				return addOperation(expresion);
 			
-			ErrorOperationResult errorResult = new ErrorOperationResult();
-			errorResult.addResults("EXPRESSION ERROR", "Expresion invalida.");
-			return errorResult;
-		}
+			case 3:
+				return subtractionOperation(expresion);
+				
+			case 4:
+				return multiplicationOperation(expresion);
+			
+			case 5:
+				return divisionOperation(expresion);
+			
+			case 6:
+				return quote(expresion);
+			
+			case 8:
+				return atomOperation(expresion);
+			
+			case 9:
+				return listOperation(expresion);
+			
+			case 10:
+				return equal(expresion);
+			
+			case 11:
+				return smallerThan(expresion);
+			
+			case 12:
+				return greaterThan(expresion);
+			
+			default:
+				
+				ErrorOperationResult errorResult = new ErrorOperationResult();
+				errorResult.addResults("EXPRESSION ERROR", "Expresion invalida.");
+				return errorResult;
 		
 		}
-		
 	}
 	
 	private IOperationResult variableAssigment(String expresion) {
@@ -99,7 +90,7 @@ public class Interpreter {
 	     
 	     AssigmentOperationResult miResult = new AssigmentOperationResult();
 	     miResult.addResults(varName, varValue.toString());
-		 return miResult;  
+		 return miResult;
 	}
 	
 	
@@ -141,7 +132,7 @@ public class Interpreter {
 	 * @return
 	 */
 	
-	private IOperationResult subtractionOperation(String expresion) {
+	public IOperationResult subtractionOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 0;
@@ -165,7 +156,7 @@ public class Interpreter {
 	 * @param expresion
 	 * @return
 	 */
-	private IOperationResult multiplicationOperation(String expresion) {
+	public IOperationResult multiplicationOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 1;
@@ -185,7 +176,7 @@ public class Interpreter {
 	 * @param expresion
 	 * @return
 	 */
-	private IOperationResult divisionOperation(String expresion) {
+	public IOperationResult divisionOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 1;
@@ -342,6 +333,24 @@ public class Interpreter {
 		PredicateOperationResult miResult = new PredicateOperationResult();
 		miResult.addResults(" atom ", "" + result);
 		return miResult;
+	}
+
+	private IOperationResult quote(String expresion) {
+		Pattern pattern = Pattern.compile("(quote |')+", Pattern.CASE_INSENSITIVE); //
+	    Matcher matcher = pattern.matcher(expresion);
+	    String replace = "";
+	    String result = "";
+	    
+	    if(matcher.find()) {
+	    	replace = matcher.group().trim();
+	    }
+	    
+	    result = expresion.replace(replace, "");
+	    result = result.substring(1, result.length()-1);
+	    
+	    PredicateOperationResult miResult = new PredicateOperationResult();
+	    miResult.addResults("",result);
+	    return miResult;
 	}
 	
 }
