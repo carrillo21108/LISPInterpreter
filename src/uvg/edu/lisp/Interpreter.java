@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import uvg.edu.common.AritmethicOperationResult;
+import uvg.edu.common.AssigmentOperationResult;
+import uvg.edu.common.ErrorOperationResult;
 import uvg.edu.common.IOperationResult;
 import uvg.edu.common.PredicateOperationResult;
 
@@ -68,22 +70,8 @@ public class Interpreter {
 		
 		default:{
 			
-			//Using anonymous Inner class
-			IOperationResult errorResult = new IOperationResult() {
-
-				
-				@Override
-				public void performOperation() {
-					System.out.println("ERROR: Invalid expression");
-					
-				}
-
-				@Override
-				public void addResults(String key, String result) {
-					// TODO Auto-generated method stub
-				}
-				
-			};
+			ErrorOperationResult errorResult = new ErrorOperationResult();
+			errorResult.addResults("EXPRESSION ERROR", "Expresion invalida.");
 			return errorResult;
 		}
 		
@@ -97,7 +85,7 @@ public class Interpreter {
 	     String varName = "";
 	     Integer varValue = 0;
 	     if (matcher.find()) {
-	         varName = matcher.group();
+	         varName = matcher.group().trim();
 	     }
 	     
 	     pattern = Pattern.compile("[ ]+[0-9]+[ ]*", Pattern.CASE_INSENSITIVE); //
@@ -109,29 +97,9 @@ public class Interpreter {
 	     //Agrego la variable
 	     myVars.put(varName, varValue);
 	     
-	     //Using anonymous Inner class
-	     IOperationResult assigmentResult = new IOperationResult() {
-			
-			String key = "";
-			String value = "";
-			
-			@Override
-			public void performOperation() {
-				System.out.println("Variable: " + key + " asignada con valor " + value);				
-			}
-
-			@Override
-			public void addResults(String key, String result) {
-				this.key = key;
-				this.value = result;
-			}
-				
-		};
-
-		assigmentResult.addResults(varName, varValue.toString());
-		
-	    return assigmentResult;  
-	    
+	     AssigmentOperationResult miResult = new AssigmentOperationResult();
+	     miResult.addResults(varName, varValue.toString());
+		 return miResult;  
 	}
 	
 	
@@ -141,12 +109,25 @@ public class Interpreter {
 	 * @return
 	 */
 	private IOperationResult addOperation(String expresion) {
-		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
-	    Matcher matcher = pattern.matcher(expresion);
+		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternVar = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
+	    Matcher matcherNum = patternNum.matcher(expresion);
+	    Matcher matcherVar = patternVar.matcher(expresion);
 	    Integer total = 0;
 	    
-	    while (matcher.find()) {
-	    	total += Integer.parseInt(matcher.group().trim());
+	    while (matcherNum.find()) {
+	    	total += Integer.parseInt(matcherNum.group().trim());
+	    }
+	    
+	    while(matcherVar.find()) {
+	    	if(myVars.containsKey(matcherVar.group())){
+	    		int valor = myVars.get(matcherVar.group());
+	    		total += valor;
+	    	}else {
+	    		ErrorOperationResult errorResult = new ErrorOperationResult();
+				errorResult.addResults("VARIABLE ERROR", "Variable invalida.");
+				return errorResult;
+	    	}
 	    }
 	    
 	    AritmethicOperationResult miResult = new AritmethicOperationResult();

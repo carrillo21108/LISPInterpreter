@@ -14,8 +14,8 @@ public class AssigmentOperationResult implements IOperationResult {
 	
 	
 	@Override
-	public void performOperation() {
-		System.out.println("El resultado de la operacion "+ key + " es: " + result);
+	public String performOperation() {
+		return "Variable: " + key + " asignada con valor " + result;
 
 	}
 

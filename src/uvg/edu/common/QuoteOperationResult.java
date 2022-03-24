@@ -13,8 +13,8 @@ public class QuoteOperationResult implements IOperationResult {
 	private String result;
 
 	@Override
-	public void performOperation() {
-		System.out.println("El resultado de la operacion " + key + " es: " + result);
+	public String performOperation() {
+		return "El resultado de la operacion " + key + " es: " + result;
 	}
 
 	@Override

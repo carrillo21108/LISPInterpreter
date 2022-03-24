@@ -21,13 +21,13 @@ public class Principal {
 
 		Scanner in = new Scanner(System.in);
 		
-		System.out.println("Bienvenido al interpreter Lisp ingrese una expresion o escriba exit para salir");
+		System.out.println("Bienvenido a LISP Interpreter. Ingrese una expresion o escriba exit para salir.");
 		String opt = "";
 		do {
 			opt = in.nextLine();
 			
 			if (!opt.equals("exit")) {
-				miLispInterpreter.Operate(opt).performOperation();
+				System.out.println(miLispInterpreter.Operate(opt).performOperation());
 			}
 			
 		}while (!opt.equals("exit"));
