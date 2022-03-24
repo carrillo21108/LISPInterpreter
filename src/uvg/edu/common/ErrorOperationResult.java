@@ -7,23 +7,21 @@ package uvg.edu.common;
  * @author Brian Carrillo
  *
  */
-public class AssigmentOperationResult implements IOperationResult {
+public class ErrorOperationResult implements IOperationResult {
 	
 	private String key;
 	private String result;
 	
-	
 	@Override
 	public String performOperation() {
-		return "Variable: " + key + " asignada con valor " + result;
-
+		return key+": "+result;
+		
 	}
 
 	@Override
 	public void addResults(String key, String result) {
 		this.key = key;
 		this.result = result;
-
 	}
 
 }
