@@ -27,7 +27,7 @@ public class Principal {
 			opt = in.nextLine();
 			
 			if (!opt.equals("exit")) {
-				miLispInterpreter.Operate(opt).performOperation();
+				System.out.println(miLispInterpreter.Operate(opt).performOperation());
 			}
 			
 		}while (!opt.equals("exit"));

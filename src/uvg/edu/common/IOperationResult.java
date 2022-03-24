@@ -8,6 +8,6 @@ package uvg.edu.common;
  *
  */
 public interface IOperationResult {
-	public void performOperation();
+	public String performOperation();
 	public void addResults(String key, String result);
 }
