@@ -20,27 +20,27 @@ public class SintaxScanner {
 	public static int getState(String expresion){
 		if (evaluate("^[(][ ]*setq[ ]+[a-z]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple assignment using setq
 			return 1;
-		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion))
 			return 2;
-		else if (evaluate("^[(][ ]*[-][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*[-][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion))
 			return 3;
-		else if (evaluate("^[(][ ]*[*][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*[*][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion))
 			return 4;
-		else if (evaluate("^[(][ ]*[/][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*[/][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion))
 			return 5;
-		else if (evaluate("^[(][ ]*(quote |')+([+]|[-]|[*]|[+]|[(]|[)]|[0-9]|[a-z]|[defun]|[ ])*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*(quote |')+([+]|[-]|[*]|[+]|[(]|[)]|[0-9]|[a-z]|[defun]|[ ])*[)]$",expresion))
 			return 6;
-		else if (evaluate("^[(][ ]*atom[ ]+((((\"[a-z]\")+|[0-9]+|(nil)+|(t)+|('[0-9]+))[ ]*)|[']([(]+[ ]*(((\"[a-z]\")+|[0-9]+|(nil)+|(t)+)[ ]*)+[)]))[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*atom[ ]+((((\"[a-z]\")+|[0-9]+|(NIL)+|(T)+|('[0-9]+))[ ]*)|[']([(]+[ ]*(((\"[a-z]\")+|[0-9]+|(NIL)+|(T)+)[ ]*)+[)]))[)]$",expresion)) //This is a simple add operation of 2 operands
 			return 8;
-		else if (evaluate("^[(][ ]*list[ ]*(((\"[a-z]\")*|[0-9]*|(nil)*|(t)*)[ ]*)+[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*list[ ]*(((\"[a-z]\")*|[0-9]*|(NIL)*|(T)*)[ ]*)+[)]$",expresion))
 			return 9;
-		else if (evaluate("^[(][ ]*equal[ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*equal[ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion))
 			return 10;
-		else if (evaluate("^[(][ ]*[<][ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*[<][ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion))
 			return 11;
-		else if (evaluate("^[(][ ]*[>][ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*[>][ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion))
 			return 12;
-		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+|([(].*[)])+)[ ]+(([a-z]+|[0-9]+|([(].*[)])+)[ ]*)*[)]$",expresion)) //This is a simple add operation of 2 operands
+		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+|([(].*[)])+)[ ]+(([a-z]+|[0-9]+|([(].*[)])+)[ ]*)*[)]$",expresion))
 			return 13;
 		else 
 			return -1; //if no match found then the expression is incorrect

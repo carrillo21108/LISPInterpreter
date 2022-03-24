@@ -70,7 +70,7 @@ public class Interpreter {
 		}
 	}
 	
-	private IOperationResult variableAssigment(String expresion) {
+	public IOperationResult variableAssigment(String expresion) {
 		 Pattern pattern = Pattern.compile("[ ]+[a-z]+[ ]+", Pattern.CASE_INSENSITIVE); //
 	     Matcher matcher = pattern.matcher(expresion);
 	     String varName = "";
@@ -99,7 +99,7 @@ public class Interpreter {
 	 * @param expresion
 	 * @return
 	 */
-	private IOperationResult addOperation(String expresion) {
+	public IOperationResult addOperation(String expresion) {
 		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
 		Pattern patternVar = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcherNum = patternNum.matcher(expresion);
@@ -196,7 +196,7 @@ public class Interpreter {
 	    return miResult;
 	}
 	
-	private IOperationResult equal(String expresion) {
+	public IOperationResult equal(String expresion) {
 		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer firstVar = 0;
@@ -224,7 +224,7 @@ public class Interpreter {
 	    return miResult;
 	}
 	
-	private IOperationResult greaterThan(String expresion) {
+	public IOperationResult greaterThan(String expresion) {
 		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer firstVar = 0;
@@ -252,7 +252,7 @@ public class Interpreter {
 	    return miResult;
 	}
 	
-	private IOperationResult smallerThan(String expresion) {
+	public IOperationResult smallerThan(String expresion) {
 		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer firstVar = 0;
@@ -281,7 +281,7 @@ public class Interpreter {
 	}
 	
 	public IOperationResult listOperation(String expresion) {
-		Pattern pattern = Pattern.compile("(('[a-z]')+|[0-9]+|(nil)+|([ ]+t)+)", Pattern.CASE_INSENSITIVE); //
+		Pattern pattern = Pattern.compile("(('[a-z]')+|[0-9]+|(NIL)+|([ ]+T)+)", Pattern.CASE_INSENSITIVE); //
 		Matcher matcher = pattern.matcher(expresion);
 		String result="(";
 		
@@ -298,7 +298,7 @@ public class Interpreter {
 		}
 		
 		if(count == 0) {
-			result = "nil";
+			result = "NIL";
 		}else {
 			result += ")";
 		}
@@ -309,8 +309,8 @@ public class Interpreter {
 	}
 	
 	public IOperationResult atomOperation(String expresion) {
-		Pattern patternAtom = Pattern.compile("^[(][ ]*atom[ ]+(((\"[a-z]\")+|[0-9]+|(nil)+|(t)+|('[0-9]+))[ ]*)[)]$", Pattern.CASE_INSENSITIVE); //
-		Pattern patternConsp = Pattern.compile("^[(][ ]*atom[ ]+[']([(]+[ ]*(((\"[a-z]\")+|[0-9]+|(nil)+|(t)+)[ ]*)+[)])[)]$", Pattern.CASE_INSENSITIVE); //
+		Pattern patternAtom = Pattern.compile("^[(][ ]*atom[ ]+(((\"[a-z]\")+|[0-9]+|(NIL)+|(T)+|('[0-9]+))[ ]*)[)]$", Pattern.CASE_INSENSITIVE); //
+		Pattern patternConsp = Pattern.compile("^[(][ ]*atom[ ]+[']([(]+[ ]*(((\"[a-z]\")+|[0-9]+|(NIL)+|(T)+)[ ]*)+[)])[)]$", Pattern.CASE_INSENSITIVE); //
 		Matcher matcherAtom = patternAtom.matcher(expresion);
 		Matcher matcherConsp = patternConsp.matcher(expresion);
 		String result="";
@@ -326,16 +326,16 @@ public class Interpreter {
 		}
 		
 		if(atom)
-			result = "t";
+			result = "T";
 		else
-			result = "nil";
+			result = "NIL";
 		
 		PredicateOperationResult miResult = new PredicateOperationResult();
 		miResult.addResults(" atom ", "" + result);
 		return miResult;
 	}
 
-	private IOperationResult quote(String expresion) {
+	public IOperationResult quote(String expresion) {
 		Pattern pattern = Pattern.compile("(quote |')+", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    String replace = "";
