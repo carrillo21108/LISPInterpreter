@@ -45,6 +45,10 @@ public class Interpreter {
 			return divisionOperation(expresion);
 		}
 		
+		case 6:{
+			return quote(expresion);
+		}
+		
 		case 10:{
 			return equal(expresion);
 		}
@@ -296,6 +300,24 @@ public class Interpreter {
 	    
 	    PredicateOperationResult miResult = new PredicateOperationResult();
 	    miResult.addResults(" smaller than ", "" + result);
+	    return miResult;
+	}
+	
+	private IOperationResult quote(String expresion) {
+		Pattern pattern = Pattern.compile("(quote |')+", Pattern.CASE_INSENSITIVE); //
+	    Matcher matcher = pattern.matcher(expresion);
+	    String replace = "";
+	    String result = "";
+	    
+	    if(matcher.find()) {
+	    	replace = matcher.group().trim();
+	    }
+	    
+	    result = expresion.replace(replace, "");
+	    result = result.substring(1, result.length()-1);
+	    
+	    PredicateOperationResult miResult = new PredicateOperationResult();
+	    miResult.addResults("",result);
 	    return miResult;
 	}
 	
