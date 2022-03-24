@@ -68,8 +68,8 @@ public class Interpreter {
 
 				
 				@Override
-				public void performOperation() {
-					System.out.println("ERROR: Invalid expression");
+				public String performOperation() {
+					return "ERROR: Invalid expression";
 					
 				}
 
@@ -111,8 +111,8 @@ public class Interpreter {
 			String value = "";
 			
 			@Override
-			public void performOperation() {
-				System.out.println("Variable: " + key + " asignada con valor " + value);				
+			public String performOperation() {
+				return "Variable: " + key + " asignada con valor " + value;				
 			}
 
 			@Override
@@ -135,7 +135,7 @@ public class Interpreter {
 	 * @param expresion
 	 * @return
 	 */
-	private IOperationResult addOperation(String expresion) {
+	public IOperationResult addOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 0;
@@ -155,7 +155,7 @@ public class Interpreter {
 	 * @return
 	 */
 	
-	private IOperationResult subtractionOperation(String expresion) {
+	public IOperationResult subtractionOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 0;
@@ -179,7 +179,7 @@ public class Interpreter {
 	 * @param expresion
 	 * @return
 	 */
-	private IOperationResult multiplicationOperation(String expresion) {
+	public IOperationResult multiplicationOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 1;
@@ -199,7 +199,7 @@ public class Interpreter {
 	 * @param expresion
 	 * @return
 	 */
-	private IOperationResult divisionOperation(String expresion) {
+	public IOperationResult divisionOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
 	    Integer total = 1;
