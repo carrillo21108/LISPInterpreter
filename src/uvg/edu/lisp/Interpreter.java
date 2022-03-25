@@ -2,12 +2,15 @@
  * 
  */
 package uvg.edu.lisp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import uvg.edu.common.AritmethicOperationResult;
 import uvg.edu.common.AssigmentOperationResult;
+import uvg.edu.common.DefunOperationResult;
 import uvg.edu.common.ErrorOperationResult;
+import uvg.edu.common.FunctionOperationResult;
 import uvg.edu.common.IOperationResult;
 import uvg.edu.common.PredicateOperationResult;
 
@@ -22,6 +25,7 @@ public class Interpreter {
 
 	public Interpreter() {
 		myVars = new HashMap<String, Integer>();
+		myFunctions = new HashMap<String, String>();
 	}
 	
 	public IOperationResult Operate(String expresion) {
@@ -45,6 +49,9 @@ public class Interpreter {
 			
 			case 6:
 				return quote(expresion);
+				
+			case 7:
+				return defunOperationResult(expresion);
 			
 			case 8:
 				return atomOperation(expresion);
@@ -63,6 +70,9 @@ public class Interpreter {
 				
 			case 14:
 				return combOperationResult(expresion);
+				
+			case 15:
+				return functionOperationResult(expresion);
 			
 			default:
 				
@@ -450,12 +460,13 @@ public class Interpreter {
 	    return miResult;
 	}
 	
-	private int combOperation(String expresion) {
+	private String combOperation(String expresion) {
 		
 		expresion = expresion.substring(1, expresion.length()-1);
 		
-		Pattern pattern = Pattern.compile("(([0-9]+)+|(([ ][(]).*[)])+|([+]+|[-]+|[*]+|[/]+)+)", Pattern.CASE_INSENSITIVE);
+		Pattern pattern = Pattern.compile("(([a-z,0-9]+)+|(([ ][(]).*[)])+|([+]+|[-]+|[*]+|[/]+)+)", Pattern.CASE_INSENSITIVE);
 		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
+		Pattern patternVar = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
 		Pattern patternParentesis = Pattern.compile("(([(]).*[)])", Pattern.CASE_INSENSITIVE);
 		Pattern patternOp = Pattern.compile("([+]+|[-]+|[*]+|[/]+)", Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(expresion);
@@ -481,33 +492,71 @@ public class Interpreter {
 		    		case "+":
 		    			Matcher matcherNum = patternNum.matcher(matcher.group().trim());
 		    			Matcher matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+		    			Matcher matcherVar = patternVar.matcher(matcher.group().trim());
 	
 		    	    	if(matcherNum.lookingAt()) {	
 		    	    		total += Integer.parseInt(matcher.group().trim());
+		    	    	}else if(matcherVar.lookingAt()){
+		    	    		if(myVars.containsKey(matcher.group())){
+		    		    		int valor = myVars.get(matcher.group());
+		    		    		total += valor;
+		    		    	}else {
+		    		    		return "ERROR";
+		    		    	}
 		    	    	}else if(matcherParentesis.lookingAt()) {
-		    	    		total += combOperation(matcherParentesis.group());
+		    	    		try {
+		    	    			total += Integer.parseInt(combOperation(matcherParentesis.group()));
+		    	    		}catch(Exception e) {
+		    	    			return "ERROR";
+		    	    		}
 		    	    	}
 		    			break;
 		    			
 		    		case "-":
+		    			
 		    			matcherNum = patternNum.matcher(matcher.group().trim());
 		    			matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+		    			matcherVar = patternVar.matcher(matcher.group().trim());
 		    			
 		    			if(countSubs == 0) {
 		    				if(matcherNum.lookingAt()) {
 		    		    		total = Integer.parseInt(matcher.group().trim());
-		    		    	}else if(matcherParentesis.lookingAt()) {
-			    	    		total = combOperation(matcherParentesis.group());
+		    		    	}else if(matcherVar.lookingAt()){
+			    	    		if(myVars.containsKey(matcher.group())){
+			    		    		int valor = myVars.get(matcher.group());
+			    		    		total = valor;
+			    		    	}else {
+			    					return "ERROR";
+			    		    	}
+			    	    	}else if(matcherParentesis.lookingAt()) {
+			    	    		try {
+			    	    			total = Integer.parseInt(combOperation(matcherParentesis.group()));
+			    	    		}catch(Exception e) {
+			    	    			return "ERROR";
+			    	    		}
 			    	    	}
 		    				countSubs ++;
+		    				
 		    			}else {
 		    				matcherNum = patternNum.matcher(matcher.group().trim());
 		    				matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+		    				matcherVar = patternVar.matcher(matcher.group().trim());
 		    		    	
 		    		    	if(matcherNum.lookingAt()) {
 		    		    		total -= Integer.parseInt(matcher.group().trim());
-		    		    	}else if(matcherParentesis.lookingAt()) {
-			    	    		total -= combOperation(matcherParentesis.group());
+		    		    	}else if(matcherVar.lookingAt()){
+			    	    		if(myVars.containsKey(matcher.group())){
+			    		    		int valor = myVars.get(matcher.group());
+			    		    		total -= valor;
+			    		    	}else {
+			    					return "ERROR";
+			    		    	}
+			    	    	}else if(matcherParentesis.lookingAt()) {
+			    	    		try {
+			    	    			total -= Integer.parseInt(combOperation(matcherParentesis.group()));
+			    	    		}catch(Exception e) {
+			    	    			return "ERROR";
+			    	    		}
 			    	    	}
 		    			}
 		    			break;
@@ -515,11 +564,23 @@ public class Interpreter {
 		    			
 		    			matcherNum = patternNum.matcher(matcher.group().trim());
 		    			matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+		    			matcherVar = patternVar.matcher(matcher.group().trim());
 	
 		    	    	if(matcherNum.lookingAt()) {	
 		    	    		total *= Integer.parseInt(matcher.group().trim());
+		    	    	}else if(matcherVar.lookingAt()){
+		    	    		if(myVars.containsKey(matcher.group())){
+		    		    		int valor = myVars.get(matcher.group());
+		    		    		total *= valor;
+		    		    	}else {
+		    					return "ERROR";
+		    		    	}
 		    	    	}else if(matcherParentesis.lookingAt()) {
-		    	    		total *= combOperation(matcherParentesis.group());
+		    	    		try {
+		    	    			total *= Integer.parseInt(combOperation(matcherParentesis.group()));
+		    	    		}catch(Exception e) {
+		    	    			return "ERROR";
+		    	    		}
 		    	    	}
 		    			break;
 		    			
@@ -527,22 +588,46 @@ public class Interpreter {
 		    			
 		    			matcherNum = patternNum.matcher(matcher.group().trim());
 		    			matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+		    			matcherVar = patternVar.matcher(matcher.group().trim());
 		    			
 		    			if(countDiv == 0) {
 		    				if(matcherNum.lookingAt()) {
 		    		    		total = Integer.parseInt(matcher.group().trim());
-		    		    	}else if(matcherParentesis.lookingAt()) {
-			    	    		total = combOperation(matcherParentesis.group());
+		    		    	}else if(matcherVar.lookingAt()){
+			    	    		if(myVars.containsKey(matcher.group())){
+			    		    		int valor = myVars.get(matcher.group());
+			    		    		total = valor;
+			    		    	}else {
+			    					return "ERROR";
+			    		    	}
+			    	    	}else if(matcherParentesis.lookingAt()) {
+			    	    		try {
+			    	    			total = Integer.parseInt(combOperation(matcherParentesis.group()));
+			    	    		}catch(Exception e) {
+			    	    			return "ERROR";
+			    	    		}
 			    	    	}
 		    				countDiv ++;
 		    			}else {
 		    				matcherNum = patternNum.matcher(matcher.group().trim());
 		    				matcherParentesis = patternParentesis.matcher(matcher.group().trim());
+		    				matcherVar = patternVar.matcher(matcher.group().trim());
 		    		    	
 		    		    	if(matcherNum.lookingAt()) {
 		    		    		total /= Integer.parseInt(matcher.group().trim());
-		    		    	}else if(matcherParentesis.lookingAt()) {
-			    	    		total /= combOperation(matcherParentesis.group());
+		    		    	}else if(matcherVar.lookingAt()){
+			    	    		if(myVars.containsKey(matcher.group())){
+			    		    		int valor = myVars.get(matcher.group());
+			    		    		total /= valor;
+			    		    	}else {
+			    					return "ERROR";
+			    		    	}
+			    	    	}else if(matcherParentesis.lookingAt()) {
+			    	    		try {
+			    	    			total /= Integer.parseInt(combOperation(matcherParentesis.group()));
+			    	    		}catch(Exception e) {
+			    	    			return "ERROR";
+			    	    		}
 			    	    	}
 		    			}
 		    			break;
@@ -550,16 +635,115 @@ public class Interpreter {
 		    		}
 	    	}
 		}
-	    return total;
+	    return String.valueOf(total);
 	}
 	
 	public IOperationResult combOperationResult(String expresion) {
 		
-		int total = combOperation(expresion);
+		String total = combOperation(expresion);
 		
-		AritmethicOperationResult miResult = new AritmethicOperationResult();
-	    miResult.addResults("",String.valueOf(total));
+		if(total.equals("ERROR")) {
+			ErrorOperationResult errorResult = new ErrorOperationResult();
+			errorResult.addResults("VARIABLE ERROR", "Variable invalida.");
+			return errorResult;
+		}else {			
+			AritmethicOperationResult miResult = new AritmethicOperationResult();
+			miResult.addResults("", total);
+			return miResult;	
+		}
+		
+	}
+	
+	public IOperationResult defunOperationResult(String expresion) {
+		 Pattern pattern = Pattern.compile("(defun[ ]+([a-z]|[a-z,0-9])+)", Pattern.CASE_INSENSITIVE); //
+	     Matcher matcher = pattern.matcher(expresion);
+	     String funcName = "";
+	     String funcValue = "";
+	     
+
+	     if (matcher.find()) {
+ 	    	funcName = matcher.group().replaceFirst("defun", " ").trim();
+	     }
+	     
+	     Pattern patternValue = Pattern.compile("([(]([a-z,0-9][ ]*)+[)][ ]*([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+)|([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*))[ ]*[)]))", Pattern.CASE_INSENSITIVE); //
+	     matcher = patternValue.matcher(expresion.substring(0, expresion.length()-1));
+	     if (matcher.find()) {
+	    	 funcValue = matcher.group();
+	     }
+	     
+	     //Agrego la funcion
+	     myFunctions.put(funcName, funcValue);
+	     
+	     DefunOperationResult miResult = new DefunOperationResult();
+	     miResult.addResults(funcName, funcValue);
+		 return miResult;
+	}
+	
+	public IOperationResult functionOperationResult(String expresion) {
+		Pattern pattern = Pattern.compile("(([a-z]+[ ]*|[0-9]+[ ]*))", Pattern.CASE_INSENSITIVE); //
+		Matcher matcher = pattern.matcher(expresion);
+	    String funcName = "";
+	    String total = "";
+	    ArrayList<String>myParameters = new ArrayList<String>();
+	    ArrayList<String>myArguments = new ArrayList<String>();
+	    
+	    int count = 0;
+	    while(matcher.find()) {
+	    	if(count==0) {
+	    		funcName = matcher.group().trim();
+	    	}else {
+	    		myParameters.add(matcher.group().trim());
+	    	}
+	    	
+	    	count++;
+	    }
+	    
+	    if(myFunctions.containsKey(funcName)){
+	    	String funcExpresion = myFunctions.get(funcName);
+	    	Pattern patternArguments = Pattern.compile("([(]([a-z][ ]*)+[)])");
+	    	Matcher matcherArguments = patternArguments.matcher(funcExpresion);
+	    	
+	    	if(matcherArguments.find()) {
+	    		Pattern patternArgument = Pattern.compile("(([a-z])+)");
+	    		Matcher matcherArgument = patternArgument.matcher(matcherArguments.group());
+	    		
+	    		while(matcherArgument.find()) {
+	    			myArguments.add(matcherArgument.group().trim());
+	    		}
+	    	}
+	    	
+	    	if(myParameters.size()!=myArguments.size()) {
+	    		ErrorOperationResult errorResult = new ErrorOperationResult();
+				errorResult.addResults("PAREMETERS ERROR", "Cantidad de Parametros invalida para la funcion.");
+				return errorResult;
+	    	}else {
+	    		for(int i=0; i<myArguments.size(); i++) {
+	    			myVars.put(myArguments.get(i), Integer.parseInt(myParameters.get(i)));
+	    		}
+	    	}
+	    	
+	    	Pattern patternBody = Pattern.compile("([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)])|([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)])");
+	    	Matcher matcherBody = patternBody.matcher(funcExpresion);
+	    	
+	    	if(matcherBody.find()) {
+	    		System.out.println(matcherBody.group());
+	    		total = functionOperation(matcherBody.group());
+	    	}
+	    	
+    	}else {
+    		ErrorOperationResult errorResult = new ErrorOperationResult();
+			errorResult.addResults("FUNCTION ERROR", "Funcion invalida.");
+			return errorResult;
+    	}
+	    
+		
+	    FunctionOperationResult miResult = new FunctionOperationResult();
+	    miResult.addResults("", total);
 	    return miResult;	
+	}
+	
+	private String functionOperation(String expresion) {
+		return combOperation(expresion);
 	}
 	
 }
