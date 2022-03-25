@@ -92,6 +92,16 @@ class AritmethicOperationTest {
 		assertEquals (result.performOperation(),"El resultado de la operacion  division  es: 1" );
 	}
 	
+	
+	@Test
+	//jUnit Interpreter
+		void combOperation() {
+		Inicio();
+		IOperationResult result =  intp.combOperationResult("(- 10 (+ 5 7))");
+		assertEquals (result.performOperation(),"El resultado de la operacion  es: -2" );
+	}
+	
+	
 
 }
 
