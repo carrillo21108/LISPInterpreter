@@ -7,14 +7,14 @@ package uvg.edu.common;
  * @author Brian Carrillo
  *
  */
-public class DefunOperationResult implements IOperationResult {
+public class FunctionOperationResult implements IOperationResult {
 	
 	private String key;
 	private String result;
-	
+
 	@Override
 	public String performOperation() {
-		return "Funcion: " + key + " asignada con valor " + result;
+		return "El resultado de la funcion " + key + " es: " + result;
 	}
 
 	@Override
