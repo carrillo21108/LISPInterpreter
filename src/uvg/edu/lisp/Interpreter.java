@@ -730,7 +730,6 @@ public class Interpreter {
 	    	Matcher matcherBody = patternBody.matcher(funcExpresion);
 	    	
 	    	if(matcherBody.find()) {
-	    		System.out.println(matcherBody.group());
 	    		total = functionOperation(matcherBody.group());
 	    	}
 	    	
@@ -763,20 +762,25 @@ public class Interpreter {
 		boolean resultCond = false;
 		
 		
-		while (matcher.find()) {
+		while (matcher.find() && !resultCond) {
 			
-			Pattern patternCond = Pattern.compile("[(]([=]+|[<]+|[>]+)[ ]([a-z]+|[0-9]+)+[ ]([a-z]+|[0-9]+)+[)]", Pattern.CASE_INSENSITIVE);
+			Pattern patternCond = Pattern.compile("((([(]([=]+|[<]+|[>]+)[ ]([a-z]+|[0-9]+)+[ ]([a-z]+|[0-9]+)+[)])|([t])))", Pattern.CASE_INSENSITIVE);
 			Pattern patternCont = Pattern.compile("([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)])|([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)])", Pattern.CASE_INSENSITIVE);
 			Matcher matcherCond = patternCond.matcher(matcher.group().trim());
 			Matcher matcherCont = patternCont.matcher(matcher.group().trim());
 			
-			while(matcherCond.find()) {				
+			while(matcherCond.find() && !resultCond) {				
 				
-				if(matcherCont.find()) {
+				if(matcherCont.find() && !resultCond) {
 					
-					Matcher matcherNum = patternNum.matcher(matcherCont.group().trim());
+					Matcher matcherNum = patternNum.matcher(matcherCond.group().trim());
+					char operator;
 					
-					char operator = matcherCond.group().trim().charAt(1);
+					if(!matcherCond.group().equals("t")) {
+						operator = matcherCond.group().trim().charAt(1);
+					}else {
+						operator = matcherCond.group().trim().charAt(0);
+					}
 					
 					int count = 1;
 					int operand1 = 0, operand2 = 0;
@@ -803,6 +807,10 @@ public class Interpreter {
 							resultCond = (operand1 > operand2);
 							break;
 							
+						case 't':
+							resultCond = true;
+							break;
+							
 					}
 					
 					if(resultCond) {
@@ -816,6 +824,9 @@ public class Interpreter {
 			
 			
 		CondOperationResult miResult = new CondOperationResult();
+		if(total.equals("")) {
+			total = "NIL";
+		}
 		miResult.addResults("",total);
 		return miResult;
 	

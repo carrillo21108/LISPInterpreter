@@ -22,5 +22,16 @@ public class QuoteOperationResult implements IOperationResult {
 		this.key = key;
 		this.result = result;
 	}
+	
+	@Override
+	public String getKey() {
+		return this.key;
+	}
+
+
+	@Override
+	public String getResult() {
+		return this.result;
+	}
 
 }
