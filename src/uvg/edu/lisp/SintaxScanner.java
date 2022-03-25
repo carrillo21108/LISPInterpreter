@@ -42,6 +42,8 @@ public class SintaxScanner {
 			return 11;
 		else if (evaluate("^[(][ ]*[>][ ]+[0-9]+[ ]+[0-9]+[ ]*[)]$",expresion))
 			return 12;
+		else if (evaluate("^[(]cond [(]([(].*[)])[)]$",expresion))
+			return 13;
 		else if (evaluate("^[(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)]$",expresion))
 			return 14;
 		else if (evaluate("^[(][ ]*([a-z]|[a-z,0-9]+)[ ]+([a-z]+|[0-9]+)[ ]*(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion))
