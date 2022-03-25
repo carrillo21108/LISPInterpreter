@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import uvg.edu.common.AritmethicOperationResult;
 import uvg.edu.common.AssigmentOperationResult;
+import uvg.edu.common.CondOperationResult;
 import uvg.edu.common.DefunOperationResult;
 import uvg.edu.common.ErrorOperationResult;
 import uvg.edu.common.FunctionOperationResult;
@@ -67,6 +68,9 @@ public class Interpreter {
 			
 			case 12:
 				return greaterThan(expresion);
+			
+			case 13:
+				return condOperation(expresion);
 				
 			case 14:
 				return combOperationResult(expresion);
@@ -744,6 +748,77 @@ public class Interpreter {
 	
 	private String functionOperation(String expresion) {
 		return combOperation(expresion);
+	}
+	
+	public IOperationResult condOperation(String expresion) {
+		
+		String total="";
+		
+		expresion = expresion.substring(6, expresion.length()-1);
+			
+		Pattern pattern = Pattern.compile("[(][(]([=]+|[<]+|[>]+)[ ]([a-z]+|[0-9]+)+[ ]([a-z]+|[0-9]+)+[)][ ][(]([a-z]+|[0-9]+|[ ]+|[(]+|[)]+|[+]+|[-]+|[*]+|[*]+)+[)][)]", Pattern.CASE_INSENSITIVE);
+		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(expresion);
+		
+		boolean resultCond = false;
+		
+		
+		while (matcher.find()) {
+			
+			Pattern patternCond = Pattern.compile("[(]([=]+|[<]+|[>]+)[ ]([a-z]+|[0-9]+)+[ ]([a-z]+|[0-9]+)+[)]", Pattern.CASE_INSENSITIVE);
+			Pattern patternCont = Pattern.compile("([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)])|([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)])", Pattern.CASE_INSENSITIVE);
+			Matcher matcherCond = patternCond.matcher(matcher.group().trim());
+			Matcher matcherCont = patternCont.matcher(matcher.group().trim());
+			
+			while(matcherCond.find()) {				
+				
+				if(matcherCont.find()) {
+					
+					Matcher matcherNum = patternNum.matcher(matcherCont.group().trim());
+					
+					char operator = matcherCond.group().trim().charAt(1);
+					
+					int count = 1;
+					int operand1 = 0, operand2 = 0;
+					
+				    while (matcherNum.find()) {
+				    	if(count == 1) {	    		
+				    		operand1 = Integer.parseInt(matcherNum.group().trim());
+				    	}else {
+				    		operand2 = Integer.parseInt(matcherNum.group().trim());
+				    	}
+				    	count ++;
+				    }
+					
+					switch(operator) {
+						case '=':
+							resultCond = (operand1 == operand2);
+							break;
+						
+						case '<':
+							resultCond = (operand1 < operand2);
+							break;
+							
+						case '>':
+							resultCond = (operand1 > operand2);
+							break;
+							
+					}
+					
+					if(resultCond) {
+						total = combOperation(matcherCont.group());
+					}
+				}
+				
+			}
+			
+		}
+			
+			
+		CondOperationResult miResult = new CondOperationResult();
+		miResult.addResults("",total);
+		return miResult;
+	
 	}
 	
 }

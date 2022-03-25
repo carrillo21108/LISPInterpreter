@@ -14,7 +14,7 @@ public class CondOperationResult implements IOperationResult {
 	
 	@Override
 	public String performOperation() {
-		return "El resultado de la operacion " + key + " es: " + result;
+		return "El resultado de la condicion " + key + " es: " + result;
 
 	}
 
