@@ -25,5 +25,16 @@ public class AssigmentOperationResult implements IOperationResult {
 		this.result = result;
 
 	}
+	
+	@Override
+	public String getKey() {
+		return this.key;
+	}
+
+
+	@Override
+	public String getResult() {
+		return this.result;
+	}
 
 }
