@@ -21,7 +21,7 @@ class AritmethicOperationTest {
 	private Interpreter intp;
 	
 
-	public void Inicio() {
+	public void AritmethicOperationTest() {
 		intp = new Interpreter();
 			
 	}
@@ -30,7 +30,7 @@ class AritmethicOperationTest {
 	//jUnit Interpreter
 	//suma sencilla
 		void addOperation() {
-		Inicio();
+		AritmethicOperationTest();
 		IOperationResult result =  intp.addOperation("(+ 10 20)");
 		assertEquals (result.performOperation(),"El resultado de la operacion  suma  es: 30" );
 	}
@@ -39,7 +39,7 @@ class AritmethicOperationTest {
 	//jUnit Interpreter
 	//suma sencilla
 		void addOperationcompuesta() {
-		Inicio();
+		AritmethicOperationTest();
 		IOperationResult result =  intp.addOperation("(+ 10 20 10)");
 		assertEquals (result.performOperation(),"El resultado de la operacion  suma  es: 40" );
 	}
@@ -47,14 +47,14 @@ class AritmethicOperationTest {
 	//resta sencilla
 	@Test
 		void subtractionOperation() {
-		Inicio();
+		AritmethicOperationTest();
 		IOperationResult result =  intp.subtractionOperation("(- 20 10)");
 		assertEquals (result.performOperation(),"El resultado de la operacion  resta  es: 10" );
 	}
 	@Test
 	
 	void subtractionOperationcompuesta() {
-		Inicio();
+		AritmethicOperationTest();
 		IOperationResult result =  intp.subtractionOperation("(- 20 10 5)");
 		assertEquals (result.performOperation(),"El resultado de la operacion  resta  es: 5" );
 }
@@ -63,7 +63,7 @@ class AritmethicOperationTest {
 	@Test
 	//jUnit Interpreter
 		void multiplicationOperation() {
-		Inicio();
+		AritmethicOperationTest();
 		IOperationResult result =  intp.multiplicationOperation("(* 5 2)");
 		assertEquals (result.performOperation(),"El resultado de la operacion  multiplicacion  es: 10" );
 	}
@@ -71,7 +71,7 @@ class AritmethicOperationTest {
 	@Test
 	//jUnit Interpreter
 		void multiplicationOperationcompuesta() {
-		Inicio();
+		AritmethicOperationTest();
 		IOperationResult result =  intp.multiplicationOperation("(* 5 2 3)");
 		assertEquals (result.performOperation(),"El resultado de la operacion  multiplicacion  es: 30" );
 	}
@@ -79,7 +79,7 @@ class AritmethicOperationTest {
 	@Test
 	//jUnit Interpreter
 		void divisionOperation() {
-		Inicio();
+		AritmethicOperationTest();
 		IOperationResult result =  intp.divisionOperation("(/ 10 5)");
 		assertEquals (result.performOperation(),"El resultado de la operacion  division  es: 2" );
 	}
@@ -87,9 +87,17 @@ class AritmethicOperationTest {
 	@Test
 	//jUnit Interpreter
 		void divisionOperationcompuesta() {
-		Inicio();
+		AritmethicOperationTest();
 		IOperationResult result =  intp.divisionOperation("(/ 10 5 2)");
 		assertEquals (result.performOperation(),"El resultado de la operacion  division  es: 1" );
+	}
+	
+	@Test
+	//jUnit Interpreter
+		void combOperation() {
+		AritmethicOperationTest();
+		IOperationResult result =  intp.combOperationResult("(- 10 (+ 5 7))");
+		assertEquals (result.performOperation(),"El resultado de la operacion  es: -2" );
 	}
 	
 
