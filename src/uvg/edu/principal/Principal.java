@@ -8,6 +8,7 @@ import java.util.Scanner;
 import uvg.edu.lisp.Interpreter;
 
 /**
+ * clase principal del programa
  * @author Brian Carrillo
  *
  */
