@@ -18,12 +18,12 @@ class QuoteOperationTest {
 
 private Interpreter intp;
 	
-
+//QuoteOpertaion
 	public void QuoteOperationTest() {
 		intp = new Interpreter();
 			
 	}
-	
+	//simple
 	@Test
 	//jUnit Interpreter
 		void quote() {
@@ -31,7 +31,7 @@ private Interpreter intp;
 		IOperationResult result =  intp.quote("('(1 2))");
 		assertEquals (result.performOperation(),"El resultado de la operacion  es: (1 2)" );
 	}
-	
+	//compuesta
 	@Test
 	//jUnit Interpreter
 		void quote2() {

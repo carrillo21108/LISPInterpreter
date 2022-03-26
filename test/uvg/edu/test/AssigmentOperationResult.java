@@ -27,7 +27,7 @@ class AssigmentOperationResult {
 	@Test
 	//jUnit Interpreter
 			
-	
+	//variable asignada
 	void variableAssigment() {
 		AssigmentOperationResult();
 		IOperationResult result =  intp.variableAssigment("(setq a 10)");

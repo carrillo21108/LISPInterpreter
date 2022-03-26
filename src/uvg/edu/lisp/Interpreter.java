@@ -19,16 +19,30 @@ import uvg.edu.common.PredicateOperationResult;
  * @author Brian Carrillo
  *
  */
-public class Interpreter {
 
+/**
+ * class interpreted 
+ * @author jenni
+ *
+ */
+public class Interpreter {
+/**
+ * HashMap: Gestión de variables y funciones
+ */
 	private HashMap<String, Integer> myVars;
 	private HashMap<String, String> myFunctions;
 
+	
+	//crear objeto myvars y myfuction extraido de HashMap
 	public Interpreter() {
 		myVars = new HashMap<String, Integer>();
 		myFunctions = new HashMap<String, String>();
 	}
-	
+	/**
+	 * 
+	 * @param opciones de las funciones
+	 * @return
+	 */
 	public IOperationResult Operate(String expresion) {
 		int state = SintaxScanner.getState(expresion);
 		
@@ -86,7 +100,11 @@ public class Interpreter {
 		
 		}
 	}
-	
+	/**
+	 * Method assigner variable
+	 * @param expresion
+	 * @return miResult
+	 */
 	public IOperationResult variableAssigment(String expresion) {
 		 Pattern pattern = Pattern.compile("[ ]+[a-z]+[ ]+", Pattern.CASE_INSENSITIVE); //
 	     Matcher matcher = pattern.matcher(expresion);
@@ -112,10 +130,11 @@ public class Interpreter {
 	
 	
 	/**
-	 * Suma
+	 * Method to execute the addOperation(suma)
 	 * @param expresion
 	 * @return
 	 */
+
 	public IOperationResult addOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
@@ -151,11 +170,10 @@ public class Interpreter {
 	}
 	
 	/**
-	 * Resta
+	 * Method to execute the substractionOperation(Resta)
 	 * @param expresion
 	 * @return
 	 */
-	
 	public IOperationResult subtractionOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
@@ -211,7 +229,7 @@ public class Interpreter {
 	    return miResult;
 	}
 	/**
-	 * Multiplicacion
+	 * Method to execute the multiplicationOperation(Multiplicacion)
 	 * @param expresion
 	 * @return
 	 */
@@ -249,7 +267,7 @@ public class Interpreter {
 	
 
 	/**
-	 * division
+	 * Method to execute divisionOperation(division)
 	 * @param expresion
 	 * @return
 	 */
@@ -306,7 +324,11 @@ public class Interpreter {
 	    miResult.addResults(" division ", "" + total);
 	    return miResult;
 	}
-	
+	/**
+	 * Method to execute equal
+	 * @param expresion
+	 * @return
+	 */
 	public IOperationResult equal(String expresion) {
 		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
@@ -334,7 +356,11 @@ public class Interpreter {
 	    miResult.addResults(" equal ", "" + result);
 	    return miResult;
 	}
-	
+	/**
+	 * Method to execute greaterThan
+	 * @param expresion
+	 * @return
+	 */
 	public IOperationResult greaterThan(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
@@ -389,7 +415,11 @@ public class Interpreter {
 	    miResult.addResults(" greater than ", "" + result);
 	    return miResult;
 	}
-	
+	/**
+	 * Method to execute smallerThan
+	 * @param expresion
+	 * @return
+	 */
 	public IOperationResult smallerThan(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
@@ -444,6 +474,11 @@ public class Interpreter {
 	    miResult.addResults(" smaller than ", "" + result);
 	    return miResult;
 	}
+	/**
+	 * Method execute listOperation
+	 * @param expresion
+	 * @return
+	 */
 	
 	public IOperationResult listOperation(String expresion) {
 		Pattern pattern = Pattern.compile("(('[a-z]')+|[0-9]+|(NIL)+|([ ]+T)+)", Pattern.CASE_INSENSITIVE); //
@@ -472,7 +507,11 @@ public class Interpreter {
 		miResult.addResults(" list ", "" + result);
 		return miResult;
 	}
-	
+	/**
+	 * Method execute atomOperation
+	 * @param expresion
+	 * @return
+	 */
 	public IOperationResult atomOperation(String expresion) {
 		Pattern patternAtom = Pattern.compile("^[(][ ]*atom[ ]+(((\"[a-z]\")+|[0-9]+|(NIL)+|(T)+|('[0-9]+))[ ]*)[)]$", Pattern.CASE_INSENSITIVE); //
 		Pattern patternConsp = Pattern.compile("^[(][ ]*atom[ ]+[']([(]+[ ]*(((\"[a-z]\")+|[0-9]+|(NIL)+|(T)+)[ ]*)+[)])[)]$", Pattern.CASE_INSENSITIVE); //
@@ -499,7 +538,12 @@ public class Interpreter {
 		miResult.addResults(" atom ", "" + result);
 		return miResult;
 	}
-
+	
+	/**
+	 * Method quote
+	 * @param expresion
+	 * @return
+	 */
 	public IOperationResult quote(String expresion) {
 		Pattern pattern = Pattern.compile("(quote |')+", Pattern.CASE_INSENSITIVE); //
 	    Matcher matcher = pattern.matcher(expresion);
@@ -517,7 +561,11 @@ public class Interpreter {
 	    miResult.addResults("",result);
 	    return miResult;
 	}
-	
+	/**
+	 * Method combOperation
+	 * @param expresion
+	 * @return
+	 */
 	private String combOperation(String expresion) {
 		
 		expresion = expresion.substring(1, expresion.length()-1);
@@ -695,7 +743,11 @@ public class Interpreter {
 		}
 	    return String.valueOf(total);
 	}
-	
+	/**
+	 * Method combOperationResult
+	 * @param expresion
+	 * @return
+	 */
 	public IOperationResult combOperationResult(String expresion) {
 		
 		String total = combOperation(expresion);
@@ -711,7 +763,11 @@ public class Interpreter {
 		}
 		
 	}
-	
+	/**
+	 * Method defunOperationResult
+	 * @param expresion
+	 * @return
+	 */
 	public IOperationResult defunOperationResult(String expresion) {
 		 Pattern pattern = Pattern.compile("(defun[ ]+([a-z]|[a-z,0-9])+)", Pattern.CASE_INSENSITIVE); //
 	     Matcher matcher = pattern.matcher(expresion);
@@ -736,6 +792,11 @@ public class Interpreter {
 	     miResult.addResults(funcName, funcValue);
 		 return miResult;
 	}
+	/**
+	 * Method functionOperationResult
+	 * @param expresion
+	 * @return
+	 */
 	
 	public IOperationResult functionOperationResult(String expresion) {
 		Pattern pattern = Pattern.compile("(([a-z]+[ ]*|[0-9]+[ ]*))", Pattern.CASE_INSENSITIVE); //
@@ -798,11 +859,19 @@ public class Interpreter {
 	    miResult.addResults("", total);
 	    return miResult;	
 	}
-	
+	/**
+	 * @param String fuctionOperation
+	 * @param expresion
+	 * @return
+	 */
 	private String functionOperation(String expresion) {
 		return combOperation(expresion);
 	}
-	
+	/**
+	 * Method condOperation
+	 * @param expresion
+	 * @return
+	 */
 	public IOperationResult condOperation(String expresion) {
 		
 		String total="";
