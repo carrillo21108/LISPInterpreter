@@ -11,6 +11,7 @@ public class AritmethicOperationResult implements IOperationResult {
 	/**
 	 * Here the AritmethicOperationResult class is subclass which implementing IOperationResult interface 
 	 */
+	//atributos
 	private String key;
 	private String result;
 	
