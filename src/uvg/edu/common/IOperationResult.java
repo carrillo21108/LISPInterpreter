@@ -1,5 +1,9 @@
 /**
- * 
+ * Clase IOperationResult
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Interfaz de operaciones
  */
 package uvg.edu.common;
 

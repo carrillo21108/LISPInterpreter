@@ -1,6 +1,12 @@
 /**
- * 
+ * Clase Principal
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * En esta clase se maneja el metodo main que permite la ejecucion del 
+ * programa. Desde el metodo main se ejecutan los metodos de la calculadora.
  */
+
 package uvg.edu.principal;
 
 /**

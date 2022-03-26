@@ -1,6 +1,11 @@
 /**
- * 
+ * Clase ArithmeticOperationTest
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Pruebas operaciones aritmeticas
  */
+
 package uvg.edu.test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,5 +1,9 @@
 /**
- * 
+ * Clase AssigmentOperationResult
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Operaciones de asignacion
  */
 package uvg.edu.common;
 

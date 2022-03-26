@@ -1,6 +1,11 @@
 /**
- * 
+ * Clase QuoteOperationResult
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Operaciones quote
  */
+
 package uvg.edu.common;
 
 /**

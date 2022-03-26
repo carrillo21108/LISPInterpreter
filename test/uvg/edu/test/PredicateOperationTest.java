@@ -1,5 +1,9 @@
 /**
- * 
+ * Clase PredicateOperationTest
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Pruebas operaciones predicate
  */
 package uvg.edu.test;
 

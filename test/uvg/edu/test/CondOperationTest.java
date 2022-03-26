@@ -1,5 +1,9 @@
 /**
- * 
+ * Clase CondOperationTest
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Pruebas operaciones cond
  */
 package uvg.edu.test;
 
