@@ -18,7 +18,7 @@ class DefunOperationTest {
 	
 	private Interpreter intp;
 	
-
+//defun operation
 	public void DefunOperationTest() {
 		intp = new Interpreter();
 			

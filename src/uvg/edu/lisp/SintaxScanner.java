@@ -20,7 +20,7 @@ public class SintaxScanner {
 	public static int getState(String expresion){
 		if (evaluate("^[(][ ]*setq[ ]+[a-z]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple assignment using setq
 			return 1;
-		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion))
+		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) 
 			return 2;
 		else if (evaluate("^[(][ ]*[-][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion))
 			return 3;

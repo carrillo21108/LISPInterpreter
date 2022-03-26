@@ -15,7 +15,7 @@ import uvg.edu.lisp.Interpreter;
  *
  */
 class PredicateOperationTest {
-
+//predicateoperation
 	private Interpreter intp;
 	
 

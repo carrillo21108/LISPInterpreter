@@ -18,7 +18,10 @@ class FunctionOperationTest {
 
 	private Interpreter intp;
 	
-
+//functionoperation
+	
+	
+	@Test
 	public void FunctionOperationTest() {
 		intp = new Interpreter();
 			

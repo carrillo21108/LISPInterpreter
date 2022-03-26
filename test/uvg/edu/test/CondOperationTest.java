@@ -18,7 +18,7 @@ class CondOperationTest {
 
 private Interpreter intp;
 	
-
+//cond operation
 	public void CondOperationTest() {
 		intp = new Interpreter();
 			
