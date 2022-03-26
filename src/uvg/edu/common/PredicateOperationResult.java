@@ -18,6 +18,7 @@ public class PredicateOperationResult implements IOperationResult {
 	/**
 	 * Here the PredicateOperationResult class is subclass which implementing IOperationResult interface 
 	 */
+	//atributos
 	private String key;
 	private String result;
 	/**

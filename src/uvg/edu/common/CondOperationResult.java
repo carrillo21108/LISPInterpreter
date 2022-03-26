@@ -11,6 +11,7 @@ public class CondOperationResult implements IOperationResult {
 	/**
 	 * Here the CondOperationResult class is subclass which implementing IOperationResult interface 
 	 */
+	//atributos
 	private String key;
 	private String result;
 	/**

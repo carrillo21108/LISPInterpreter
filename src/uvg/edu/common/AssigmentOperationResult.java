@@ -18,6 +18,7 @@ public class AssigmentOperationResult implements IOperationResult {
 /**
  * Here the AssigmentOperationResult class is subclass which implementing IOperationResult interface 
  */
+	//atributos
 	private String key;
 	private String result;
 	

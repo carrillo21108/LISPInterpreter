@@ -18,6 +18,7 @@ public class FunctionOperationResult implements IOperationResult {
 	/**
 	 * Here the FunctionOperationResult class is subclass which implementing IOperationResult interface 
 	 */
+	//atributos
 	private String key;
 	private String result;
 	/**
