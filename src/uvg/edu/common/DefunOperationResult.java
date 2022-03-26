@@ -11,6 +11,7 @@ public class DefunOperationResult implements IOperationResult {
 	/**
 	 * Here the DefunOperationResult class is subclass which implementing IOperationResult interface 
 	 */
+	//atributos
 	private String key;
 	private String result;
 	/**

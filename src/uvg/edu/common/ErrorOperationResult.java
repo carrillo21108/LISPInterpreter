@@ -19,6 +19,7 @@ public class ErrorOperationResult implements IOperationResult {
 	/**
 	 * Here the ErrorOperationResult class is subclass which implementing IOperationResult interface 
 	 */
+	//atributos
 	private String key;
 	private String result;
 	/**

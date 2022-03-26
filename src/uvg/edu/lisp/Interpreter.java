@@ -870,7 +870,7 @@ public class Interpreter {
 	/**
 	 * Method condOperation
 	 * @param expresion
-	 * @return
+	 * @return 
 	 */
 	public IOperationResult condOperation(String expresion) {
 		
