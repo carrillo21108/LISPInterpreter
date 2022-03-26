@@ -103,7 +103,7 @@ public class Interpreter {
 	/**
 	 * Method assigner variable
 	 * @param expresion
-	 * @return miResult
+	 * @return IOperationResult
 	 */
 	public IOperationResult variableAssigment(String expresion) {
 		 Pattern pattern = Pattern.compile("[ ]+[a-z]+[ ]+", Pattern.CASE_INSENSITIVE); //
@@ -132,7 +132,7 @@ public class Interpreter {
 	/**
 	 * Method to execute the addOperation(suma)
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 
 	public IOperationResult addOperation(String expresion) {
@@ -172,7 +172,7 @@ public class Interpreter {
 	/**
 	 * Method to execute the substractionOperation(Resta)
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	public IOperationResult subtractionOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
@@ -231,7 +231,7 @@ public class Interpreter {
 	/**
 	 * Method to execute the multiplicationOperation(Multiplicacion)
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	public IOperationResult multiplicationOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
@@ -269,7 +269,7 @@ public class Interpreter {
 	/**
 	 * Method to execute divisionOperation(division)
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	public IOperationResult divisionOperation(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
@@ -327,7 +327,7 @@ public class Interpreter {
 	/**
 	 * Method to execute equal
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	public IOperationResult equal(String expresion) {
 		Pattern pattern = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE); //
@@ -359,7 +359,7 @@ public class Interpreter {
 	/**
 	 * Method to execute greaterThan
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	public IOperationResult greaterThan(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
@@ -418,7 +418,7 @@ public class Interpreter {
 	/**
 	 * Method to execute smallerThan
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	public IOperationResult smallerThan(String expresion) {
 		Pattern pattern = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
@@ -477,7 +477,7 @@ public class Interpreter {
 	/**
 	 * Method execute listOperation
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	
 	public IOperationResult listOperation(String expresion) {
@@ -510,7 +510,7 @@ public class Interpreter {
 	/**
 	 * Method execute atomOperation
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	public IOperationResult atomOperation(String expresion) {
 		Pattern patternAtom = Pattern.compile("^[(][ ]*atom[ ]+(((\"[a-z]\")+|[0-9]+|(NIL)+|(T)+|('[0-9]+))[ ]*)[)]$", Pattern.CASE_INSENSITIVE); //
@@ -542,7 +542,7 @@ public class Interpreter {
 	/**
 	 * Method quote
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	public IOperationResult quote(String expresion) {
 		Pattern pattern = Pattern.compile("(quote |')+", Pattern.CASE_INSENSITIVE); //
@@ -564,7 +564,7 @@ public class Interpreter {
 	/**
 	 * Method combOperation
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	private String combOperation(String expresion) {
 		
@@ -746,7 +746,7 @@ public class Interpreter {
 	/**
 	 * Method combOperationResult
 	 * @param expresion
-	 * @return
+	 * @return IOperation
 	 */
 	public IOperationResult combOperationResult(String expresion) {
 		
@@ -766,7 +766,7 @@ public class Interpreter {
 	/**
 	 * Method defunOperationResult
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	public IOperationResult defunOperationResult(String expresion) {
 		 Pattern pattern = Pattern.compile("(defun[ ]+([a-z]|[a-z,0-9])+)", Pattern.CASE_INSENSITIVE); //
@@ -795,7 +795,7 @@ public class Interpreter {
 	/**
 	 * Method functionOperationResult
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	
 	public IOperationResult functionOperationResult(String expresion) {
@@ -862,7 +862,7 @@ public class Interpreter {
 	/**
 	 * @param String fuctionOperation
 	 * @param expresion
-	 * @return
+	 * @return IOperationResult
 	 */
 	private String functionOperation(String expresion) {
 		return combOperation(expresion);
@@ -870,7 +870,7 @@ public class Interpreter {
 	/**
 	 * Method condOperation
 	 * @param expresion
-	 * @return 
+	 * @return IOperationResult
 	 */
 	public IOperationResult condOperation(String expresion) {
 		
@@ -937,7 +937,6 @@ public class Interpreter {
 					}
 					
 					if(resultCond) {
-						total = combOperation(matcherCont.group());
 					}
 				}
 				
