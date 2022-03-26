@@ -1,5 +1,9 @@
 /**
- * 
+ * Clase DefunOperationTest
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Pruebas operaciones defun
  */
 package uvg.edu.test;
 

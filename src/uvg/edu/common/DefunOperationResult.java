@@ -1,5 +1,9 @@
 /**
- * 
+ * Clase DefunOperationResult
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Operaciones de definicion de funciones
  */
 package uvg.edu.common;
 

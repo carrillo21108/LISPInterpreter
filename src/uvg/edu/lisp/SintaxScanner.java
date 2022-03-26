@@ -1,6 +1,11 @@
 /**
- * 
+ * Clase Sintaxis Scanner
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * En esta clase se escanean las operaciones.
  */
+
 package uvg.edu.lisp;
 
 import java.util.regex.Matcher;
@@ -20,7 +25,7 @@ public class SintaxScanner {
 	public static int getState(String expresion){
 		if (evaluate("^[(][ ]*setq[ ]+[a-z]+[ ]+[0-9]+[ ]*[)]$",expresion)) //This is a simple assignment using setq
 			return 1;
-		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion)) 
+		else if (evaluate("^[(][ ]*[+][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion))
 			return 2;
 		else if (evaluate("^[(][ ]*[-][ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion))
 			return 3;
@@ -48,6 +53,8 @@ public class SintaxScanner {
 			return 14;
 		else if (evaluate("^[(][ ]*([a-z]|[a-z,0-9]+)[ ]+([a-z]+|[0-9]+)[ ]*(([a-z]+|[0-9]+)[ ]*)*[)]$",expresion))
 			return 15;
+		else if (evaluate("^[(][ ]*defun[ ]+([a-z]|[a-z,0-9]+)[ ]+([(]([a-z,0-9][ ]*)+[)][ ]*([(]cond.*[)]))[)]$",expresion))
+			return 16;
 		else 
 			return -1; //if no match found then the expression is incorrect
 	}

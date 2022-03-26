@@ -1,5 +1,9 @@
 /**
- * 
+ * Clase FunctionOperationResult
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Operciones de ejecucion de funcion
  */
 package uvg.edu.common;
 

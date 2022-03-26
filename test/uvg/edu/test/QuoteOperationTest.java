@@ -1,5 +1,9 @@
 /**
- * 
+ * Clase QuoteOperationTest
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Pruebas con operaciones quote
  */
 package uvg.edu.test;
 

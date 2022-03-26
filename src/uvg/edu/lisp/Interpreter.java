@@ -1,6 +1,11 @@
 /**
- * 
+ * Clase Interpreter
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * En esta clase se maneja la interpretacion de las operaciones.
  */
+
 package uvg.edu.lisp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -91,6 +96,9 @@ public class Interpreter {
 				
 			case 15:
 				return functionOperationResult(expresion);
+				
+			case 16:
+				return defunOperationResult(expresion);
 			
 			default:
 				
@@ -100,6 +108,7 @@ public class Interpreter {
 		
 		}
 	}
+	
 	/**
 	 * Method assigner variable
 	 * @param expresion
@@ -743,6 +752,7 @@ public class Interpreter {
 		}
 	    return String.valueOf(total);
 	}
+	
 	/**
 	 * Method combOperationResult
 	 * @param expresion
@@ -776,13 +786,18 @@ public class Interpreter {
 	     
 
 	     if (matcher.find()) {
- 	    	funcName = matcher.group().replaceFirst("defun", " ").trim();
+	    	funcName = matcher.group().replaceFirst("defun", " ").trim();
 	     }
 	     
 	     Pattern patternValue = Pattern.compile("([(]([a-z,0-9][ ]*)+[)][ ]*([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+)|([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*))[ ]*[)]))", Pattern.CASE_INSENSITIVE); //
+	     Pattern patternValue2 = Pattern.compile("([(]([a-z,0-9][ ]*)+[)][ ]*([(]cond.*[)]))", Pattern.CASE_INSENSITIVE); //
 	     matcher = patternValue.matcher(expresion.substring(0, expresion.length()-1));
+	     Matcher matcher2 = patternValue2.matcher(expresion.substring(0, expresion.length()-1));
+	     
 	     if (matcher.find()) {
 	    	 funcValue = matcher.group();
+	     }else if(matcher2.find()) {
+	    	 funcValue = matcher2.group();
 	     }
 	     
 	     //Agrego la funcion
@@ -792,6 +807,7 @@ public class Interpreter {
 	     miResult.addResults(funcName, funcValue);
 		 return miResult;
 	}
+	
 	/**
 	 * Method functionOperationResult
 	 * @param expresion
@@ -843,9 +859,13 @@ public class Interpreter {
 	    	
 	    	Pattern patternBody = Pattern.compile("([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)])|([(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+(([a-z]+[ ]([(].*[)])+)|([0-9]+[ ]([(].*[)])+)|([(].*[)])+|(([(].*[)])+[ ][0-9]+)|(([(].*[)])+[ ][a-z]+))[ ]*[)])");
 	    	Matcher matcherBody = patternBody.matcher(funcExpresion);
+	    	Pattern patternCond = Pattern.compile("([(]cond.*[)])");
+	    	Matcher matcherCond = patternCond.matcher(funcExpresion);
 	    	
-	    	if(matcherBody.find()) {
+	    	if(matcherBody.find() && !matcherCond.find()) {
 	    		total = functionOperation(matcherBody.group());
+	    	}else {
+	    		total = condOperation(matcherCond.group()).getResult();
 	    	}
 	    	
     	}else {
@@ -859,6 +879,7 @@ public class Interpreter {
 	    miResult.addResults("", total);
 	    return miResult;	
 	}
+	
 	/**
 	 * @param String fuctionOperation
 	 * @param expresion
@@ -867,6 +888,7 @@ public class Interpreter {
 	private String functionOperation(String expresion) {
 		return combOperation(expresion);
 	}
+	
 	/**
 	 * Method condOperation
 	 * @param expresion
@@ -880,6 +902,8 @@ public class Interpreter {
 			
 		Pattern pattern = Pattern.compile("[(][(]([=]+|[<]+|[>]+)[ ]([a-z]+|[0-9]+)+[ ]([a-z]+|[0-9]+)+[)][ ][(]([a-z]+|[0-9]+|[ ]+|[(]+|[)]+|[+]+|[-]+|[*]+|[*]+)+[)][)]", Pattern.CASE_INSENSITIVE);
 		Pattern patternNum = Pattern.compile("([0-9]+)", Pattern.CASE_INSENSITIVE);
+		Pattern patternVar = Pattern.compile("([a-z]+)", Pattern.CASE_INSENSITIVE); //
+		Pattern patternNumVar = Pattern.compile("([a-z]+|[0-9]+)", Pattern.CASE_INSENSITIVE); //
 		Matcher matcher = pattern.matcher(expresion);
 		
 		boolean resultCond = false;
@@ -892,11 +916,12 @@ public class Interpreter {
 			Matcher matcherCond = patternCond.matcher(matcher.group().trim());
 			Matcher matcherCont = patternCont.matcher(matcher.group().trim());
 			
-			while(matcherCond.find() && !resultCond) {				
+			while(matcherCond.find() && !resultCond) {
 				
 				if(matcherCont.find() && !resultCond) {
 					
-					Matcher matcherNum = patternNum.matcher(matcherCond.group().trim());
+					Matcher matcherVarNum = patternNumVar.matcher(matcherCond.group());
+					
 					char operator;
 					
 					if(!matcherCond.group().equals("t")) {
@@ -904,16 +929,35 @@ public class Interpreter {
 					}else {
 						operator = matcherCond.group().trim().charAt(0);
 					}
-					
+				
 					int count = 1;
 					int operand1 = 0, operand2 = 0;
 					
-				    while (matcherNum.find()) {
-				    	if(count == 1) {	    		
-				    		operand1 = Integer.parseInt(matcherNum.group().trim());
-				    	}else {
-				    		operand2 = Integer.parseInt(matcherNum.group().trim());
-				    	}
+				    while (matcherVarNum.find() && !matcherVarNum.group().equals("t")) {
+				    	
+				    	Matcher matcherNum = patternNum.matcher(matcherVarNum.group().trim());
+				    	Matcher matcherVar = patternVar.matcher(matcherVarNum.group().trim());
+				    	
+				    	
+						if(matcherNum.lookingAt()) {
+							if(count == 1) {	    		
+					    		operand1 = Integer.parseInt(matcherNum.group().trim());
+					    	}else {
+					    		operand2 = Integer.parseInt(matcherNum.group().trim());
+					    	}
+						}else if(matcherVar.lookingAt()) {
+							if(myVars.containsKey(matcherVar.group())){
+								if(count == 1) {	    		
+						    		operand1 = myVars.get(matcherVar.group().trim());
+						    	}else {
+						    		operand2 = myVars.get(matcherVar.group().trim());
+						    	}
+					    	}else {
+					    		ErrorOperationResult errorResult = new ErrorOperationResult();
+								errorResult.addResults("VARIABLE ERROR", "Variable invalida.");
+								return errorResult;
+					    	}
+						}
 				    	count ++;
 				    }
 					
@@ -937,6 +981,45 @@ public class Interpreter {
 					}
 					
 					if(resultCond) {
+						Pattern patternFunc = Pattern.compile("([(][a-z]+[ ][(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)][)])");
+				    	Matcher matcherFunc = patternFunc.matcher(matcherCont.group());
+				    	
+				    	if(matcherFunc.find()) {
+				    		Pattern patternArithmetic = Pattern.compile("[(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]+(([a-z]+|[0-9]+)[ ]*)*[)]");
+				    		Matcher matcherArithmetic = patternArithmetic.matcher(matcherFunc.group());
+				    		
+				    		if(matcherArithmetic.find()) {
+				    			String parcial = combOperation(matcherArithmetic.group());
+					    		
+				    			Pattern patternName = Pattern.compile("[a-z]+[ ]");
+					    		Matcher matcherVar = patternName.matcher(matcherFunc.group());
+				    			
+				    			if(matcherVar.find()) {
+				    				String exp = "("+matcherVar.group()+" "+parcial+")";	
+								    String funcionResult = functionOperationResult(exp).getResult();
+								 
+								    
+								    Pattern patternOperacion = Pattern.compile("[(][ ]*([+]+|[-]+|[*]+|[/]+)[ ]+([a-z]+|[0-9]+)[ ]");
+							    	Matcher matcherOperacion = patternOperacion.matcher(matcherCont.group());
+							    	
+								    if(matcherOperacion.find()) {
+								    	Pattern patternGlobalVar = Pattern.compile("([a-z]+)");
+								    	Matcher matcherGlobalVar = patternGlobalVar.matcher(matcherCont.group());
+								    	
+								    	if(matcherGlobalVar.find()) {
+								    		int value = myVars.get(matcherGlobalVar.group());
+										    myVars.put(matcherGlobalVar.group(), value+1);
+									    	
+									    	String operacion = matcherOperacion.group()+funcionResult+")";
+										    total = combOperation(operacion);
+								    	}
+								    }
+								    
+				    			}
+				    		}
+				    	}else{
+				    		total = combOperation(matcherCont.group());
+				    	}
 					}
 				}
 				
@@ -949,6 +1032,7 @@ public class Interpreter {
 		if(total.equals("")) {
 			total = "NIL";
 		}
+		
 		miResult.addResults("",total);
 		return miResult;
 	

@@ -1,5 +1,9 @@
 /**
- * 
+ * Clase ErrorOperationResult
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Errores de operaciones
  */
 package uvg.edu.common;
 

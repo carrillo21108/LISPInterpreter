@@ -1,6 +1,11 @@
 /**
- * 
+ * Clase ArithmeticOperationResult
+ * @author Brian Carrillo, Jennifer Toxcon y Carlos Lopez
+ * @version 25.03.2022
+ *
+ * Operaciones aritmeticas
  */
+
 package uvg.edu.common;
 
 /**
